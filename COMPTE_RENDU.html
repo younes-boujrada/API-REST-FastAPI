@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Compte Rendu : TP API LogiAI - BOUJRADA Younes</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 18mm 15mm 18mm 15mm;
+            @bottom-right {
+                content: counter(page) "/" counter(pages);
+                font-size: 9pt;
+                color: #64748b;
+            }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #1e293b;
+            line-height: 1.55;
+            font-size: 10.5pt;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .header-title h1 {
+            margin: 0;
+            color: #0f172a;
+            font-size: 19pt;
+            font-weight: 700;
+        }
+        .header-title .subtitle {
+            margin-top: 4px;
+            font-size: 11pt;
+            color: #2563eb;
+            font-weight: 600;
+        }
+        .student-info {
+            background-color: #f8fafc;
+            border-left: 4px solid #2563eb;
+            padding: 10px 14px;
+            margin-bottom: 24px;
+            border-radius: 0 6px 6px 0;
+            font-size: 10pt;
+        }
+        .student-info p {
+            margin: 2px 0;
+        }
+        h2 {
+            color: #1e3a8a;
+            border-bottom: 1.5px solid #e2e8f0;
+            padding-bottom: 4px;
+            margin-top: 22px;
+            margin-bottom: 10px;
+            font-size: 13pt;
+            page-break-after: avoid;
+        }
+        h3 {
+            color: #1e40af;
+            font-size: 11pt;
+            margin-top: 14px;
+            margin-bottom: 6px;
+            page-break-after: avoid;
+        }
+        p, li {
+            margin-top: 4px;
+            margin-bottom: 6px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 9.5pt;
+            page-break-inside: avoid;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 7px 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            font-weight: 600;
+        }
+        tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+        pre, code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+        pre {
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 8.5pt;
+            line-height: 1.4;
+            overflow-x: auto;
+            margin: 8px 0;
+            page-break-inside: avoid;
+        }
+        p code, li code, td code {
+            background-color: #f1f5f9;
+            color: #d946ef;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 9pt;
+        }
+        .img-container {
+            text-align: center;
+            margin: 16px 0;
+            page-break-inside: avoid;
+        }
+        .img-container img {
+            max-width: 95%;
+            height: auto;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .caption {
+            font-size: 8.5pt;
+            color: #64748b;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .page-break {
+            page-break-before: always;
+        }
+        .badge-success {
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 8.5pt;
+        }
+        .badge-error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 8.5pt;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-title">
+            <h1>Compte Rendu : TP API REST avec FastAPI</h1>
+            <div class="subtitle">Projet LogiAI — Prédiction du risque de retard</div>
+        </div>
+    </div>
+
+    <div class="student-info">
+        <p><strong>Nom et Prénom :</strong> BOUJRADA Younes</p>
+        <p><strong>Module :</strong> Développement et déploiement d’applications intelligentes</p>
+        <p><strong>Année Universitaire :</strong> 2026 - 2027</p>
+        <p><strong>Branche Git :</strong> <code>tp-api</code></p>
+    </div>
+
+    <h2>1. Environnement et premiers tests</h2>
+    <p><strong>Sortie de <code>python -m pytest</code> au démarrage (état initial) :</strong></p>
+    <pre>collected 13 items
+tests\test_api.py ..FFFF......F                                                                  [100%]
+=========================================== FAILURES ===========================================
+FAILED tests/test_api.py::test_predict_valide_renvoie_200 - assert 422 == 200
+FAILED tests/test_api.py::test_predict_forme_de_la_reponse - AssertionError: assert {'detail'} == {'alerte', ...}
+FAILED tests/test_api.py::test_predict_probabilite_entre_0_et_1 - KeyError: 'probabilite_retard'
+FAILED tests/test_api.py::test_predict_trajet_risque_plus_eleve_que_trajet_facile - KeyError: 'probabilite_retard'
+FAILED tests/test_api.py::test_modele_absent_renvoie_503 - assert 422 == 503
+=================================== 5 failed, 8 passed, 1 warning ===================================</pre>
+
+    <p><strong>Performances initiales du modèle (<code>python -m logiai.train</code>) :</strong></p>
+    <ul>
+        <li><strong>Baseline accuracy</strong> : 0.726 (72.6 % en prédisant toujours « à l'heure »)</li>
+        <li><strong>Accuracy du modèle</strong> : 0.774 (77.4 %)</li>
+        <li><strong>Rappel du modèle</strong> : 0.464 (46.4 %)</li>
+        <li><strong>Précision</strong> : 0.617 (61.7 %) | <strong>AUC</strong> : 0.769</li>
+        <li><em>Interprétation :</em> Sur 100 livraisons réellement en retard, environ 46 sont détectées par le modèle. Pour un dispatcher, ce modèle apporte une valeur ajoutée immédiate en priorisant l'action proactive sur près de la moitié des retards réels plutôt que de subir passivement les aléas de livraison.</li>
+    </ul>
+
+    <p><strong>Pourquoi certains tests attendant un code 422 passaient-ils déjà alors que rien n'était encore codé ?</strong></p>
+    <p>Le schéma <code>Livraison</code> était configuré avec <code>model_config = ConfigDict(extra="forbid")</code> et n'avait aucun champ déclaré (seul <code>distance_km</code> était présent). Dès lors, tout champ transmis dans la requête HTTP était considéré comme inconnu et interdit, provoquant systématiquement un rejet automatique par Pydantic avec une erreur <strong>422 Unprocessable Entity</strong>. Les tests attendant 422 réussissaient donc par « faux vert » car tout était rejeté, y compris les données légitimes.</p>
+
+    <h2>2. Schéma Pydantic (Livraison)</h2>
+    <p>Définition des 6 variables restantes avec leurs bornes physiques réalistes :</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Variable</th>
+                <th>Min</th>
+                <th>Max</th>
+                <th>Justification physique</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>distance_km</code></td>
+                <td>1</td>
+                <td>1000</td>
+                <td>D'un court trajet urbain (1 km) jusqu'à une liaison nationale longue distance (1000 km).</td>
+            </tr>
+            <tr>
+                <td><code>poids_kg</code></td>
+                <td>0.1</td>
+                <td>30000</td>
+                <td>Du pli/colis léger en moto (100 g) jusqu'à la capacité d'un camion lourd (30 tonnes).</td>
+            </tr>
+            <tr>
+                <td><code>heure_depart</code></td>
+                <td>0</td>
+                <td>23</td>
+                <td>Heure sur le cycle journalier de 24 heures (0 à 23).</td>
+            </tr>
+            <tr>
+                <td><code>pluie_mm</code></td>
+                <td>0</td>
+                <td>300</td>
+                <td>Temps sec (0 mm) jusqu'à des conditions orageuses ou d'inondation extrêmes (300 mm).</td>
+            </tr>
+            <tr>
+                <td><code>trafic_index</code></td>
+                <td>0</td>
+                <td>10</td>
+                <td>Échelle standardisée fixée dans le contrat (0 = parfaitement fluide, 10 = réseau saturé).</td>
+            </tr>
+            <tr>
+                <td><code>nb_arrets</code></td>
+                <td>0</td>
+                <td>50</td>
+                <td>Trajet direct sans arrêt (0) jusqu'à une tournée urbaine intensive de livraison (50 arrêts).</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h2>3. Implémentation de la fonction predict()</h2>
+    <pre>@app.post("/v1/predict", response_model=PredictionOut)
+def predict(livraison: Livraison):
+    predictor = state.get("predictor")
+    if predictor is None:
+        raise HTTPException(
+            status_code=503,
+            detail="Modèle non chargé. Veuillez vérifier la présence du modèle ou ré-entraîner avec python -m logiai.train"
+        )
+    resultat = predictor.predict(livraison.model_dump())
+    return PredictionOut(**resultat)</pre>
+
+    <h2>4. Vérification des quatre requêtes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Requête</th>
+                <th>Code HTTP</th>
+                <th>Explication</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Livraison normale</td>
+                <td><span class="badge-success">200 OK</span></td>
+                <td>Données valides respectant l'ensemble du schéma et modèle présent en mémoire.</td>
+            </tr>
+            <tr>
+                <td><code>distance_km = -5</code></td>
+                <td><span class="badge-error">422 Unprocessable Entity</span></td>
+                <td>Valeur négative refusée par la borne <code>ge=1</code> vérifiée par Pydantic.</td>
+            </tr>
+            <tr>
+                <td><code>type_vehicule = "avion"</code></td>
+                <td><span class="badge-error">422 Unprocessable Entity</span></td>
+                <td>Valeur non conforme à l'énumération <code>Literal["moto", "fourgon", "camion"]</code>.</td>
+            </tr>
+            <tr>
+                <td>Modèle absent (dossier <code>models/</code> supprimé)</td>
+                <td><span class="badge-error">503 Service Unavailable</span></td>
+                <td><code>state.get("predictor")</code> est <code>None</code> ; l'API lève explicitement une <code>HTTPException(503)</code>.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="img-container">
+        <img src="docs/images/swagger_predict.png" alt="Swagger UI /v1/predict">
+        <div class="caption">Figure 1 : Exécution et réponse 200 sur Swagger UI (/docs) avec les détails de la prédiction.</div>
+    </div>
+
+    <h2>5. Questions de compréhension</h2>
+    <ol>
+        <li><strong>Pourquoi charge-t-on le modèle au démarrage et pas à chaque requête ?</strong><br>
+        Le chargement depuis le disque et la désérialisation du modèle (<code>joblib</code>) prennent des dizaines à centaines de millisecondes et sollicitent fortement le CPU/disque. Le charger une seule fois au démarrage (cycle <code>lifespan</code>) et le garder en mémoire RAM permet d'exécuter chaque prédiction en quasi-instantané (&lt; 2 ms).</li>
+        <li><strong>Qui écrit le contrôle « pluie &lt;= 100 » (ou 300), et où est-il écrit ?</strong><br>
+        Le développeur l'écrit dans <code>logiai/api/schemas.py</code> via le paramètre <code>le=...</code> de <code>Field()</code>. FastAPI et Pydantic interceptent et exécutent automatiquement cette validation avant tout traitement applicatif.</li>
+        <li><strong>Différence entre 422 et 503 ?</strong><br>
+        Le code <strong>422</strong> correspond à une erreur <em>client</em> (données envoyées erronées ou non conformes). Le code <strong>503</strong> correspond à une erreur <em>serveur</em> (le serveur est fonctionnel mais sa dépendance d'inférence est temporairement indisponible).</li>
+        <li><strong>Pourquoi une route <code>/v1/predict</code> plutôt que <code>/predict</code> ?</strong><br>
+        Le versionnement d'API garantit la rétrocompatibilité : on peut déployer plus tard une <code>/v2</code> sans impacter ni casser les clients existants qui continuent de consommer la version 1.</li>
+        <li><strong>Que se passerait-il si la distance était déclarée <code>int</code> ?</strong><br>
+        Toute distance contenant une valeur décimale (ex. <code>14.8</code> km) provoquerait une erreur de validation 422 ou une troncature forcée, privant l'API d'une précision kilométrique réelle.</li>
+    </ol>
+
+    <div class="page-break"></div>
+
+    <h2>6. Décision de conception : Modèle absent</h2>
+    <p><strong>Répondre 503 ou refuser de démarrer ? Qu'est-ce que chaque option fait perdre ?</strong></p>
+    <ul>
+        <li><strong>Option A (Répondre 503) :</strong> L'API démarre et l'endpoint <code>/health</code> indique <code>{"status": "ok", "model_loaded": false}</code>. Les dashboards de supervision peuvent identifier immédiatement la cause sans que le serveur ne tombe en panne complète. La documentation <code>/docs</code> reste également consultable. <em>Ce qu'on perd :</em> Les requêtes d'inférence échouent pour les utilisateurs.</li>
+        <li><strong>Option B (Refuser de démarrer) :</strong> Philosophie « fail-fast » où un orchestrateur (Kubernetes) ne dirigera aucun trafic vers un conteneur non opérationnel. <em>Ce qu'on perd :</em> Toute observabilité immédiate via <code>/health</code> ou <code>/docs</code>, provoquant des boucles de redémarrage (<code>CrashLoopBackOff</code>).</li>
+    </ul>
+
+    <h2>7. Tests et banc d'essai (Bloc 6)</h2>
+    <p>Résultat après implémentation du schéma, de la route et des deux tests personnalisés :</p>
+    <pre>============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.2.0, pluggy-1.7.0
+rootdir: C:\Users\PC\Downloads\logiai_starter\starter
+plugins: anyio-4.15.1
+collected 15 items
+
+tests\test_api.py ...............                                        [100%]
+
+======================== 15 passed, 1 warning in 2.99s ========================</pre>
+
+    <p><strong>Les deux tests ajoutés dans <code>tests/test_api.py</code> :</strong></p>
+    <pre>def test_heure_24_refusee():
+    with TestClient(app) as client:
+        assert post(client, heure_depart=24).status_code == 422
+
+def test_alerte_coherente_avec_le_seuil():
+    difficile = dict(distance_km=479, poids_kg=2040, heure_depart=17,
+                     pluie_mm=46, trafic_index=10, nb_arrets=4, type_vehicule="camion")
+    facile = dict(distance_km=5, poids_kg=3, heure_depart=11,
+                  pluie_mm=0, trafic_index=1, nb_arrets=0, type_vehicule="moto")
+    with TestClient(app) as client:
+        res_difficile = post(client, **difficile).json()
+        res_facile = post(client, **facile).json()
+        assert res_difficile["alerte"] is True
+        assert res_facile["alerte"] is False</pre>
+
+    <h2>8. Client Streamlit (Bloc 7)</h2>
+    <div class="img-container">
+        <img src="docs/images/streamlit_interface.png" alt="Interface Streamlit LogiAI">
+        <div class="caption">Figure 2 : Interface web Streamlit affichant l'évaluation d'une livraison à risque (alerte déclenchée).</div>
+    </div>
+    <p><strong>Gestion de l'API indisponible :</strong> Lorsque le serveur <code>uvicorn</code> est arrêté, le bloc <code>try / except requests.ConnectionError</code> intercepte l'erreur et affiche proprement dans l'interface : <em>« API injoignable : lancez uvicorn dans un autre terminal. »</em></p>
+    <p><strong>Question d'architecture :</strong> Ce client Streamlit n'importe plus <code>scikit-learn</code> ni le modèle. Cela découple totalement le frontend du backend d'IA. Une application mobile (iOS/Android) ou web en React n'a besoin que d'effectuer une requête HTTP POST standard, sans nécessiter d'environnement Python ni télécharger un modèle lourd.</p>
+
+    <h2>9. Ticket de sortie</h2>
+    <ol>
+        <li><strong>Code pour pluie de 500 mm :</strong> Code <strong>422 Unprocessable Entity</strong>, contrôlé par la validation Pydantic dans <code>schemas.py</code>.</li>
+        <li><strong>Chargement au démarrage :</strong> Pour garantir la rapidité de réponse et éviter la surcharge disque à chaque requête.</li>
+    </ol>
+</body>
+</html>
