@@ -1,0 +1,1279 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compte rendu Atelier 4 — BOUJRADA Younes</title>
+  <style>
+    :root {
+      --navy: #0b3a67;
+      --blue: #0b5cad;
+      --blue-light: #eaf3fc;
+      --ink: #1f2937;
+      --muted: #475569;
+      --line: #cbd5e1;
+      --green: #116329;
+      --green-light: #eefbf2;
+      --amber: #9a6700;
+      --amber-light: #fff8e6;
+      --red: #b42318;
+      --red-light: #fff1f0;
+      --paper: #ffffff;
+      --soft: #f7f9fc;
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: #eef2f7;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Segoe UI", "Calibri", Arial, sans-serif;
+      font-size: 10.4pt;
+      line-height: 1.55;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .cover {
+      min-height: 297mm;
+      padding: 30mm 24mm 24mm;
+      background:
+        radial-gradient(circle at 88% 8%, rgba(90, 169, 255, 0.32), transparent 28%),
+        radial-gradient(circle at 8% 92%, rgba(17, 99, 41, 0.22), transparent 32%),
+        linear-gradient(135deg, #082f56 0%, #0b3a67 48%, #0b5cad 100%);
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover::before {
+      content: "";
+      position: absolute;
+      width: 150mm;
+      height: 150mm;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 50%;
+      top: -58mm;
+      right: -48mm;
+    }
+
+    .cover::after {
+      content: "";
+      position: absolute;
+      width: 110mm;
+      height: 110mm;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      bottom: -45mm;
+      left: -32mm;
+    }
+
+    .cover-top,
+    .cover-main,
+    .cover-foot {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8.5pt;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .cover-badge {
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 999px;
+      padding: 2.2mm 5mm;
+      font-weight: 700;
+    }
+
+    .cover-main {
+      margin-top: 38mm;
+    }
+
+    .cover-kicker {
+      color: #9ed0ff;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 9pt;
+      margin-bottom: 7mm;
+    }
+
+    .cover h1 {
+      margin: 0;
+      max-width: 155mm;
+      font-size: 30pt;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      font-weight: 750;
+    }
+
+    .cover-subtitle {
+      margin: 7mm 0 0;
+      max-width: 150mm;
+      font-size: 12.5pt;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.84);
+    }
+
+    .cover-card {
+      margin-top: 24mm;
+      width: 112mm;
+      padding: 7mm 8mm;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 5mm;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(6px);
+    }
+
+    .cover-label {
+      color: #9ed0ff;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 8pt;
+      font-weight: 700;
+      margin-bottom: 2mm;
+    }
+
+    .cover-name {
+      font-size: 21pt;
+      font-weight: 750;
+      letter-spacing: 0.01em;
+      margin-bottom: 5mm;
+    }
+
+    .cover-meta {
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 9.6pt;
+      line-height: 1.7;
+    }
+
+    .cover-meta strong {
+      color: #ffffff;
+    }
+
+    .cover-foot {
+      position: absolute;
+      left: 24mm;
+      right: 24mm;
+      bottom: 20mm;
+      display: flex;
+      justify-content: space-between;
+      gap: 10mm;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 8.4pt;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 4mm;
+    }
+
+    .content {
+      padding: 0;
+    }
+
+    .section {
+      break-before: page;
+    }
+
+    .section.first {
+      break-before: auto;
+    }
+
+    h2 {
+      margin: 0 0 5mm;
+      padding: 0 0 3mm;
+      border-bottom: 2.4px solid var(--blue);
+      color: var(--navy);
+      font-size: 17pt;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      break-after: avoid;
+    }
+
+    h2 .num {
+      display: inline-block;
+      min-width: 10mm;
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    h3 {
+      margin: 7mm 0 2.5mm;
+      color: var(--navy);
+      font-size: 12.2pt;
+      line-height: 1.3;
+      break-after: avoid;
+    }
+
+    h4 {
+      margin: 5mm 0 2mm;
+      color: var(--blue);
+      font-size: 10.8pt;
+      break-after: avoid;
+    }
+
+    p {
+      margin: 0 0 3.2mm;
+      text-align: justify;
+    }
+
+    ul,
+    ol {
+      margin: 0 0 4mm;
+      padding-left: 5.5mm;
+    }
+
+    li {
+      margin: 0 0 1.5mm;
+    }
+
+    strong {
+      color: #111827;
+    }
+
+    .lead {
+      font-size: 11.2pt;
+      color: var(--muted);
+      margin-bottom: 6mm;
+    }
+
+    .callout {
+      margin: 4mm 0 5mm;
+      padding: 3.4mm 4.2mm;
+      border-left: 4px solid var(--blue);
+      border-radius: 2mm;
+      background: var(--blue-light);
+      break-inside: avoid;
+    }
+
+    .callout p:last-child {
+      margin-bottom: 0;
+    }
+
+    .callout.success {
+      border-left-color: var(--green);
+      background: var(--green-light);
+    }
+
+    .callout.warn {
+      border-left-color: var(--amber);
+      background: var(--amber-light);
+    }
+
+    .callout.danger {
+      border-left-color: var(--red);
+      background: var(--red-light);
+    }
+
+    .callout-title {
+      display: block;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 1mm;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3mm;
+      margin: 5mm 0 6mm;
+      break-inside: avoid;
+    }
+
+    .kpi {
+      border: 1px solid var(--line);
+      border-radius: 3mm;
+      padding: 4mm;
+      background: var(--soft);
+    }
+
+    .kpi-value {
+      display: block;
+      color: var(--navy);
+      font-size: 19pt;
+      line-height: 1.1;
+      font-weight: 800;
+    }
+
+    .kpi-label {
+      display: block;
+      margin-top: 1.5mm;
+      color: var(--muted);
+      font-size: 8.4pt;
+      line-height: 1.35;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 3mm 0 5mm;
+      font-size: 9.1pt;
+      line-height: 1.42;
+      break-inside: avoid;
+    }
+
+    th {
+      background: var(--navy);
+      color: #ffffff;
+      text-align: left;
+      font-weight: 700;
+      padding: 2.4mm 2.8mm;
+      border: 1px solid #0a3159;
+    }
+
+    td {
+      padding: 2.2mm 2.8mm;
+      border: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    tbody tr:nth-child(even) td {
+      background: #f7f9fc;
+    }
+
+    .status {
+      display: inline-block;
+      min-width: 13mm;
+      padding: 0.8mm 2mm;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 8.3pt;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .s-200 {
+      color: #0b5c2a;
+      background: #dcfce7;
+    }
+
+    .s-401 {
+      color: #8a1c14;
+      background: #fee2e2;
+    }
+
+    .s-403 {
+      color: #7a4d00;
+      background: #fef3c7;
+    }
+
+    .s-422 {
+      color: #5b21b6;
+      background: #ede9fe;
+    }
+
+    .s-404 {
+      color: #334155;
+      background: #e2e8f0;
+    }
+
+    code {
+      font-family: "Cascadia Mono", "Consolas", "Courier New", monospace;
+      font-size: 0.9em;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 0.2mm 1mm;
+      border-radius: 1mm;
+    }
+
+    pre {
+      margin: 3mm 0 5mm;
+      padding: 4mm 4.5mm;
+      border-radius: 2.5mm;
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: "Cascadia Mono", "Consolas", "Courier New", monospace;
+      font-size: 8.4pt;
+      line-height: 1.48;
+      white-space: pre-wrap;
+      word-break: break-word;
+      break-inside: avoid;
+      border: 1px solid #1e293b;
+    }
+
+    pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+      font-size: inherit;
+    }
+
+    .terminal {
+      background: #111827;
+      border-color: #334155;
+    }
+
+    .terminal .prompt {
+      color: #86efac;
+    }
+
+    .terminal .ok {
+      color: #86efac;
+      font-weight: 700;
+    }
+
+    .terminal .dim {
+      color: #94a3b8;
+    }
+
+    .figure {
+      margin: 5mm 0 6mm;
+      break-inside: avoid;
+      text-align: center;
+    }
+
+    .figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--line);
+      border-radius: 2.5mm;
+      box-shadow: 0 1.5mm 4mm rgba(15, 23, 42, 0.12);
+      background: #ffffff;
+    }
+
+    .figure.compact img {
+      width: 92%;
+      margin: 0 auto;
+    }
+
+    figcaption {
+      margin-top: 2.2mm;
+      color: var(--muted);
+      font-size: 8.6pt;
+      line-height: 1.4;
+      text-align: left;
+    }
+
+    .fig-label {
+      color: var(--navy);
+      font-weight: 800;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4mm;
+      align-items: start;
+    }
+
+    .grid-2 .figure {
+      margin: 3mm 0;
+    }
+
+    .grid-2 .figure img {
+      width: 100%;
+    }
+
+    .toc {
+      padding: 20mm 0 0;
+    }
+
+    .toc h2 {
+      border-bottom: 2.4px solid var(--blue);
+    }
+
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 7mm 0 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .toc-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 4mm;
+      margin: 0;
+      padding: 3.4mm 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 11pt;
+    }
+
+    .toc-list .n {
+      color: var(--blue);
+      font-weight: 800;
+      min-width: 8mm;
+    }
+
+    .toc-list .t {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .toc-list .d {
+      color: var(--muted);
+      font-size: 8.6pt;
+      margin-left: auto;
+      text-align: right;
+    }
+
+    .toc-note {
+      margin-top: 8mm;
+      color: var(--muted);
+      font-size: 8.8pt;
+      padding: 4mm;
+      border: 1px solid var(--line);
+      border-radius: 2mm;
+      background: var(--soft);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5mm;
+      align-items: start;
+    }
+
+    .two-col > div {
+      min-width: 0;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      position: relative;
+      padding-left: 6mm;
+    }
+
+    .checklist li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .small {
+      font-size: 8.8pt;
+      color: var(--muted);
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .avoid {
+      break-inside: avoid;
+    }
+
+    .page-break {
+      break-before: page;
+    }
+
+    @media print {
+      html,
+      body {
+        background: #ffffff;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="cover">
+    <div class="cover-top">
+      <span class="cover-badge">Atelier 4 · LogiAI</span>
+      <span>Compte rendu · 2026–2027</span>
+    </div>
+
+    <div class="cover-main">
+      <div class="cover-kicker">Développement et déploiement d'applications intelligentes</div>
+      <h1>Tester, sécuriser et appeler l'API LogiAI</h1>
+      <p class="cover-subtitle">
+        Validation Pydantic, authentification par clé API, autorisation administrateur,
+        CORS et client web : compte rendu des deux sprints et des preuves d'exécution.
+      </p>
+
+      <div class="cover-card">
+        <div class="cover-label">Présenté par</div>
+        <div class="cover-name">BOUJRADA Younes</div>
+        <div class="cover-meta">
+          <div><strong>Module :</strong> Développement et déploiement d'applications intelligentes</div>
+          <div><strong>Année universitaire :</strong> 2026 – 2027</div>
+          <div><strong>Date :</strong> 4 novembre 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-foot">
+      <span>FastAPI · Pydantic · pytest · Ruff</span>
+      <span>API REST · CORS · JavaScript</span>
+    </div>
+  </section>
+
+  <main class="content">
+
+    <section class="section first">
+      <div class="toc">
+        <h2><span class="num">—</span>Sommaire</h2>
+        <ol class="toc-list">
+          <li><span class="n">1</span><span class="t">Contexte et objectifs</span><span class="d">API LogiAI et périmètre de l'atelier</span></li>
+          <li><span class="n">2</span><span class="t">Activité 1 — Casser l'API</span><span class="d">Cinq requêtes refusées, codes 422 et 404</span></li>
+          <li><span class="n">3</span><span class="t">Activité 2 — Deux bugs de validation</span><span class="d">Bornes, tests et corrections</span></li>
+          <li><span class="n">4</span><span class="t">Sprint 1 — Protéger l'API par clé</span><span class="d">401, 403, rôles et secret hors Git</span></li>
+          <li><span class="n">5</span><span class="t">Sprint 2 — Client web et CORS</span><span class="d">Fetch, erreurs lisibles et preuve navigateur</span></li>
+          <li><span class="n">6</span><span class="t">Tests, qualité et résultats</span><span class="d">52 tests, Ruff et synthèse</span></li>
+          <li><span class="n">7</span><span class="t">Questions de compréhension</span><span class="d">401/403/422, secret, compare_digest, CORS</span></li>
+          <li><span class="n">8</span><span class="t">ADR 003 — Sécurité</span><span class="d">En-tête X-API-Key et origines précises</span></li>
+          <li><span class="n">9</span><span class="t">Conclusion et livrables</span><span class="d">Bilan, limites et prochaines étapes</span></li>
+        </ol>
+        <div class="toc-note">
+          <strong>Preuves intégrées :</strong> les 18 captures d'écran de <code>docs/images/atelier4/</code>
+          sont reproduites dans ce document, avec leur contexte et leur légende.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2><span class="num">1.</span>Contexte et objectifs</h2>
+      <p class="lead">
+        L'API LogiAI prédit le risque de retard d'une livraison à partir de sept variables :
+        distance, poids, heure de départ, pluie, trafic, nombre d'arrêts et type de véhicule.
+        L'atelier 4 consiste à la tester jusqu'à la casser, à corriger les bugs révélés,
+        puis à la sécuriser et à l'appeler depuis un client web.
+      </p>
+
+      <div class="kpi-grid">
+        <div class="kpi"><span class="kpi-value">52</span><span class="kpi-label">tests passent sur la suite complète</span></div>
+        <div class="kpi"><span class="kpi-value">2</span><span class="kpi-label">bugs de bornes trouvés puis corrigés</span></div>
+        <div class="kpi"><span class="kpi-value">18</span><span class="kpi-label">captures d'écran intégrées au rapport</span></div>
+        <div class="kpi"><span class="kpi-value">0</span><span class="kpi-label">erreur Ruff check et format</span></div>
+      </div>
+
+      <h3>Objectifs de l'atelier</h3>
+      <ul>
+        <li>Écrire des tests qui envoient des requêtes invalides et vérifient les codes HTTP attendus.</li>
+        <li>Tester les deux côtés de chaque borne pour révéler les bugs de validation Pydantic.</li>
+        <li>Protéger <code>/v1/predict</code> par une clé API et <code>/v1/model-info</code> par un rôle administrateur.</li>
+        <li>Configurer CORS pour autoriser uniquement l'origine du client web prévu.</li>
+        <li>Appeler l'API depuis une page web, afficher les erreurs 401 et 422 de façon lisible.</li>
+        <li>Documenter les décisions de sécurité dans une ADR et produire un compte rendu reproductible.</li>
+      </ul>
+
+      <h3>Environnement de travail</h3>
+      <table>
+        <thead>
+          <tr><th>Élément</th><th>Valeur</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Système</td><td>Windows, PowerShell 5.1</td></tr>
+          <tr><td>Python</td><td>3.11.9 dans le virtualenv <code>.venv</code></td></tr>
+          <tr><td>API</td><td>FastAPI + Uvicorn, <code>http://localhost:8000</code></td></tr>
+          <tr><td>Validation</td><td>Pydantic, schémas <code>Livraison</code> et <code>PredictionOut</code></td></tr>
+          <tr><td>Tests</td><td>pytest 9.2.0, TestClient FastAPI</td></tr>
+          <tr><td>Qualité</td><td>Ruff check et Ruff format</td></tr>
+          <tr><td>Client web</td><td>HTML/CSS/JavaScript, servi sur <code>http://localhost:5500</code></td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <span class="callout-title">Fil conducteur</span>
+        <p>
+          Une API qui accepte tout n'est pas une API robuste. Les tests d'entrée, la validation
+          du schéma, l'authentification et CORS sont quatre couches complémentaires : chacune
+          répond à une question différente et aucune ne remplace les autres.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2><span class="num">2.</span>Activité 1 — Casser l'API</h2>
+      <p>
+        Le fichier <code>tests/test_casser.py</code> regroupe cinq requêtes volontairement
+        incorrectes avec <code>@pytest.mark.parametrize</code>. Chaque cas vérifie le code
+        HTTP réellement renvoyé par l'API. Toutes les requêtes sont envoyées avec la clé
+        utilisateur de test, sauf lorsque le cas teste justement l'absence de clé.
+      </p>
+
+      <table>
+        <thead>
+          <tr><th>Cas</th><th>Requête (corps ou URL)</th><th>Prévu</th><th>Obtenu</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Champ manquant</td><td><code>POST /v1/predict</code> sans <code>poids_kg</code></td><td><span class="status s-422">422</span></td><td><span class="status s-422">422</span></td></tr>
+          <tr><td>Valeur absurde</td><td><code>POST /v1/predict</code> avec <code>poids_kg = 99999</code></td><td><span class="status s-422">422</span></td><td><span class="status s-422">422</span></td></tr>
+          <tr><td>Texte au lieu d'un nombre</td><td><code>POST /v1/predict</code> avec <code>distance_km = "cent"</code></td><td><span class="status s-422">422</span></td><td><span class="status s-422">422</span></td></tr>
+          <tr><td>Champ en trop</td><td><code>POST /v1/predict</code> avec <code>champ_inconnu = 10</code></td><td><span class="status s-422">422</span></td><td><span class="status s-422">422</span></td></tr>
+          <tr><td>Mauvaise route</td><td><code>POST /v1/invalid_route</code></td><td><span class="status s-404">404</span></td><td><span class="status s-404">404</span></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Ce que ces tests démontrent</h3>
+      <ul>
+        <li><strong>Champ manquant :</strong> Pydantic refuse le corps incomplet avec un 422.</li>
+        <li><strong>Valeur absurde :</strong> la borne haute de <code>poids_kg</code> est appliquée.</li>
+        <li><strong>Type incorrect :</strong> une chaîne ne peut pas être convertie en nombre pour <code>distance_km</code>.</li>
+        <li><strong>Champ inconnu :</strong> <code>extra="forbid"</code> dans le modèle refuse les champs non prévus.</li>
+        <li><strong>Mauvaise route :</strong> l'API renvoie 404, et non 422, car la route n'existe pas.</li>
+      </ul>
+
+      <div class="callout warn">
+        <span class="callout-title">Limite de l'activité 1</span>
+        <p>
+          Aucune requête du premier tableau n'a été acceptée alors qu'elle devait être refusée.
+          C'est l'activité 2, en testant les deux côtés de chaque borne, qui a révélé deux
+          valeurs impossibles acceptées par le schéma : <code>heure_depart = 24</code> et
+          <code>nb_arrets = -1</code>.
+        </p>
+      </div>
+
+      <h3>Extrait du test paramétré</h3>
+      <pre><code>CAS = [
+    (&quot;valeur absurde&quot;, &quot;/v1/predict&quot;, corps_absurde, 422),
+    (&quot;champ manquant&quot;, &quot;/v1/predict&quot;, corps_sans_poids, 422),
+    (&quot;texte au lieu d'un nombre&quot;, &quot;/v1/predict&quot;, corps_texte, 422),
+    (&quot;champ en trop&quot;, &quot;/v1/predict&quot;, corps_en_trop, 422),
+    (&quot;mauvaise route&quot;, &quot;/v1/invalid_route&quot;, corps_valide, 404),
+]
+
+@pytest.mark.parametrize(&quot;nom, route, corps, attendu&quot;, CAS)
+def test_requete_refusee(client, headers_user, nom, route, corps, attendu):
+    r = client.post(route, json=corps, headers=headers_user)
+    assert r.status_code == attendu</code></pre>
+    </section>
+
+    <section class="section">
+      <h2><span class="num">3.</span>Activité 2 — Deux bugs de validation</h2>
+      <p>
+        Le fichier <code>tests/test_limites.py</code> contient 28 cas qui testent les bornes
+        basses et hautes de chaque champ. Cette méthode systématique a révélé deux bugs
+        volontairement laissés dans les schémas Pydantic.
+      </p>
+
+      <table>
+        <thead>
+          <tr><th>Bug</th><th>Test qui l'a révélé</th><th>Comportement avant</th><th>Correction</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1</strong></td>
+            <td><code>("heure_depart", 24, 422)</code></td>
+            <td><code>heure_depart = 24</code> était accepté (200) alors qu'une heure valide va de 0 à 23.</td>
+            <td><code>heure_depart: int = Field(ge=0, le=23, ...)</code></td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td><code>("nb_arrets", -1, 422)</code></td>
+            <td><code>nb_arrets = -1</code> était accepté (200) car seule la borne haute <code>le=15</code> était déclarée.</td>
+            <td><code>nb_arrets: int = Field(ge=0, le=15, ...)</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Avant / après</h3>
+      <div class="two-col">
+        <div>
+          <h4>Avant correction</h4>
+          <pre><code>heure_depart: int = Field(
+    ge=0, le=24, description=&quot;Heure de départ&quot;
+)
+nb_arrets: int = Field(
+    le=15, description=&quot;Nombre d'arrêts&quot;
+)</code></pre>
+        </div>
+        <div>
+          <h4>Après correction</h4>
+          <pre><code>heure_depart: int = Field(
+    ge=0, le=23, description=&quot;Heure de départ (0 à 23)&quot;
+)
+nb_arrets: int = Field(
+    ge=0, le=15, description=&quot;Nombre d'arrêts&quot;
+)</code></pre>
+        </div>
+      </div>
+
+      <p>
+        Le cas <code>heure_depart = 11.5</code> vérifie également qu'un nombre décimal est
+        refusé pour un champ déclaré <code>int</code> : Pydantic renvoie 422. Les deux bugs
+        sont désormais couverts par des tests de non-régression.
+      </p>
+
+      <div class="callout success">
+        <span class="callout-title">Résultat des tests de bornes</span>
+        <p><strong>28 passed, 1 warning</strong> après correction. Le warning vient de Starlette/httpx et n'affecte pas les tests.</p>
+      </div>
+
+      <figure class="figure">
+        <img src="docs/images/atelier4/03_pytest_limites.png" alt="Tests des bornes : 28 passed">
+        <figcaption><span class="fig-label">Figure 1 —</span> Les 28 tests de bornes passent après correction des deux bugs.</figcaption>
+      </figure>
+
+      <figure class="figure">
+        <img src="docs/images/atelier4/01_pytest_final.png" alt="Suite complète : 52 passed">
+        <figcaption><span class="fig-label">Figure 2 —</span> Suite complète : 52 tests passent, avec un warning de dépréciation Starlette/httpx.</figcaption>
+      </figure>
+
+      <figure class="figure compact">
+        <img src="docs/images/atelier4/04_ruff.png" alt="Ruff check et Ruff format">
+        <figcaption><span class="fig-label">Figure 3 —</span> Ruff check et Ruff format : aucune erreur, 20 fichiers déjà formatés.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <h2><span class="num">4.</span>Sprint 1 — Protéger l'API par clé</h2>
+      <p>
+        Avant le sprint 1, <code>POST /v1/predict</code> sans clé renvoyait 200 : l'API était
+        ouverte à tous. Après protection, la même requête renvoie 401. La clé est lue depuis
+        l'environnement, jamais écrite dans le code source.
+      </p>
+
+      <h3>Authentification : <code>verify_api_key()</code></h3>
+      <pre><code>def verify_api_key(x_api_key: str | None = Header(default=None)) -&gt; str:
+    &quot;&quot;&quot;Authentification : renvoie le rôle ('user' ou 'admin') ou lève une 401.&quot;&quot;&quot;
+    if not x_api_key:
+        raise HTTPException(
+            status_code=401,
+            detail=&quot;Clé API absente : renseignez l'en-tête X-API-Key.&quot;,
+            headers={&quot;WWW-Authenticate&quot;: &quot;ApiKey&quot;},
+        )
+    if _egal(x_api_key, config.ADMIN_KEY):
+        return &quot;admin&quot;
+    if _egal(x_api_key, config.API_KEY):
+        return &quot;user&quot;
+    raise HTTPException(
+        status_code=401,
+        detail=&quot;Clé API invalide.&quot;,
+        headers={&quot;WWW-Authenticate&quot;: &quot;ApiKey&quot;},
+    )</code></pre>
+
+      <h3>Autorisation : <code>require_admin()</code></h3>
+      <pre><code>def require_admin(role: str = Depends(verify_api_key)) -&gt; str:
+    &quot;&quot;&quot;Autorisation : la clé est valide mais n'a pas forcément les droits (403).&quot;&quot;&quot;
+    if role != &quot;admin&quot;:
+        raise HTTPException(
+            status_code=403,
+            detail=&quot;Droits administrateur requis pour cette route.&quot;,
+        )
+    return role</code></pre>
+
+      <h3>Protection des routes</h3>
+      <pre><code>@app.post(
+    &quot;/v1/predict&quot;,
+    response_model=PredictionOut,
+    dependencies=[Depends(verify_api_key)],
+)
+def predict(livraison: Livraison):
+    ...
+
+@app.get(&quot;/v1/model-info&quot;, dependencies=[Depends(require_admin)])
+def model_info():
+    ...</code></pre>
+
+      <p>
+        <code>/health</code> reste public : il sert à la supervision et ne révèle aucun secret.
+        La comparaison des clés utilise <code>secrets.compare_digest()</code> pour éviter une
+        attaque temporelle.
+      </p>
+
+      <h3>Codes obtenus</h3>
+      <table>
+        <thead>
+          <tr><th>Requête</th><th>Clé</th><th>Code</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>/health</code></td><td>Aucune</td><td><span class="status s-200">200</span></td></tr>
+          <tr><td><code>/v1/predict</code></td><td>Aucune</td><td><span class="status s-401">401</span></td></tr>
+          <tr><td><code>/v1/predict</code></td><td>Fausse clé</td><td><span class="status s-401">401</span></td></tr>
+          <tr><td><code>/v1/predict</code></td><td>Clé utilisateur</td><td><span class="status s-200">200</span></td></tr>
+          <tr><td><code>/v1/predict</code></td><td>Clé administrateur</td><td><span class="status s-200">200</span></td></tr>
+          <tr><td><code>/v1/model-info</code></td><td>Clé utilisateur</td><td><span class="status s-403">403</span></td></tr>
+          <tr><td><code>/v1/model-info</code></td><td>Clé administrateur</td><td><span class="status s-200">200</span></td></tr>
+        </tbody>
+      </table>
+
+      <figure class="figure">
+        <img src="docs/images/atelier4/06_api_codes.png" alt="Codes HTTP obtenus sur l'API LogiAI">
+        <figcaption><span class="fig-label">Figure 4 —</span> Codes HTTP réellement obtenus : 200, 401, 403 et 422, avec le préflight CORS 5500 accepté et 5501 refusé.</figcaption>
+      </figure>
+
+      <h3>Preuves Swagger</h3>
+      <div class="grid-2">
+        <figure class="figure">
+          <img src="docs/images/atelier4/10_swagger_401.png" alt="Swagger : 401 sans clé">
+          <figcaption><span class="fig-label">Figure 5 —</span> <code>/v1/predict</code> sans clé : 401.</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="docs/images/atelier4/11_swagger_403.png" alt="Swagger : 403 avec clé utilisateur">
+          <figcaption><span class="fig-label">Figure 6 —</span> <code>/v1/model-info</code> avec clé utilisateur : 403.</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="docs/images/atelier4/12_swagger_admin_200.png" alt="Swagger : 200 avec clé admin">
+          <figcaption><span class="fig-label">Figure 7 —</span> <code>/v1/model-info</code> avec clé admin : 200.</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="docs/images/atelier4/09_swagger_200.png" alt="Swagger : 200 avec clé valide">
+          <figcaption><span class="fig-label">Figure 8 —</span> <code>/v1/predict</code> avec clé valide : 200 et prédiction.</figcaption>
+        </figure>
+      </div>
+
+      <figure class="figure">
+        <img src="docs/images/atelier4/02_pytest_securite.png" alt="Tests de sécurité : 11 passed">
+        <figcaption><span class="fig-label">Figure 9 —</span> Les 11 tests de sécurité passent : 401, 403, 200, secret non divulgué et refus sans configuration.</figcaption>
+      </figure>
+
+      <h3>Le secret n'est pas dans Git</h3>
+      <p>
+        Le fichier <code>.env</code> contient les clés locales. Il est ignoré par Git, tandis
+        que <code>.env.example</code> est versionné avec des valeurs factices.
+      </p>
+      <pre class="terminal"><span class="prompt">PS&gt;</span> git status --short
+<span class="dim"># .env n'apparaît pas dans la liste</span>
+
+<span class="prompt">PS&gt;</span> git check-ignore -v .env
+.gitignore:5:.env    .env</pre>
+
+      <figure class="figure">
+        <img src="docs/images/atelier4/05_git_env.png" alt="Preuve que .env est ignoré par Git">
+        <figcaption><span class="fig-label">Figure 10 —</span> Preuve que <code>.env</code> est ignoré par Git et que <code>.env.example</code> est le seul fichier suivi.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <h2><span class="num">5.</span>Sprint 2 — Client web et CORS</h2>
+      <p>
+        Le client <code>web/index.html</code> propose un formulaire pour les sept variables,
+        un champ de clé API et un bouton « Évaluer ». La clé est saisie à chaque visite :
+        elle n'est écrite nulle part dans la page. Le bouton est désactivé pendant l'appel
+        et réactivé dans un bloc <code>finally</code>.
+      </p>
+
+      <h3>Appel <code>fetch</code> avec la clé dans l'en-tête</h3>
+      <pre><code>async function appelerApi(livraison, cle) {
+  const reponse = await fetch(API_URL, {
+    method: &quot;POST&quot;,
+    headers: { &quot;Content-Type&quot;: &quot;application/json&quot;, &quot;X-API-Key&quot;: cle },
+    body: JSON.stringify(livraison),
+  });
+  const corps = await reponse.json();
+  return { status: reponse.status, corps };
+}</code></pre>
+
+      <h3>Messages d'erreur lisibles</h3>
+      <pre><code>function messageErreur(status, corps) {
+  if (status === 401) return &quot;Clé API absente ou invalide.&quot;;
+  if (status === 403) return &quot;Vous n'avez pas les droits pour cette action.&quot;;
+  if (status === 503) return &quot;Le service n'est pas prêt (modèle non chargé). Réessayez plus tard.&quot;;
+  if (status === 422 &amp;&amp; Array.isArray(corps.detail)) {
+    const details = corps.detail.map((erreur) =&gt; {
+      const champ = erreur.loc.filter((partie) =&gt; partie !== &quot;body&quot;).join(&quot;.&quot;);
+      return `${champ} : ${erreur.msg}`;
+    });
+    return `Données invalides. ${details.join(&quot; | &quot;)}`;
+  }
+  return `Erreur ${status}.`;
+}</code></pre>
+
+      <h3>Résultats affichés</h3>
+      <table>
+        <thead>
+          <tr><th>Scénario</th><th>Réponse</th><th>Affichage</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Livraison normale</td><td>200</td><td><code>Probabilité de retard : 73.2 %. Alerte : livraison à risque.</code></td></tr>
+          <tr><td>Pluie de 500 mm</td><td>422</td><td><code>Données invalides. pluie_mm : Input should be less than or equal to 100</code></td></tr>
+          <tr><td>Fausse clé</td><td>401</td><td><code>Clé API absente ou invalide.</code></td></tr>
+          <tr><td>Page servie sur 5501</td><td>Blocage navigateur</td><td><code>API injoignable ou requête bloquée (CORS). Vérifiez qu'uvicorn est lancé et regardez la console F12.</code></td></tr>
+        </tbody>
+      </table>
+
+      <figure class="figure">
+        <img src="docs/images/atelier4/07_swagger_docs.png" alt="Documentation Swagger de l'API LogiAI">
+        <figcaption><span class="fig-label">Figure 11 —</span> Documentation Swagger de l'API LogiAI, accessible sur <code>/docs</code>.</figcaption>
+      </figure>
+
+      <figure class="figure">
+        <img src="docs/images/atelier4/08_swagger_predict_form.png" alt="Formulaire Swagger pour tester /v1/predict">
+        <figcaption><span class="fig-label">Figure 12 —</span> Formulaire Swagger permettant de tester <code>/v1/predict</code> avec un corps JSON.</figcaption>
+      </figure>
+
+      <h3>Captures du client web</h3>
+      <figure class="figure">
+        <img src="docs/images/atelier4/13_web_success.png" alt="Client web : succès avec probabilité 73,2 %">
+        <figcaption><span class="fig-label">Figure 13 —</span> Livraison normale : probabilité de retard 73,2 %, alerte de livraison à risque.</figcaption>
+      </figure>
+
+      <figure class="figure">
+        <img src="docs/images/atelier4/14_web_422.png" alt="Client web : erreur 422 lisible">
+        <figcaption><span class="fig-label">Figure 14 —</span> Pluie de 500 mm : la réponse 422 est transformée en message lisible champ par champ.</figcaption>
+      </figure>
+
+      <figure class="figure">
+        <img src="docs/images/atelier4/15_web_401.png" alt="Client web : erreur 401">
+        <figcaption><span class="fig-label">Figure 15 —</span> Fausse clé : le client affiche « Clé API absente ou invalide. »</figcaption>
+      </figure>
+
+      <h3>Expérience CORS sur le port 5501</h3>
+      <p>
+        La page servie sur <code>http://localhost:5501</code> n'est pas dans la liste des
+        origines autorisées. Le navigateur bloque donc l'appel avant que le JavaScript puisse
+        lire la réponse. La page affiche le message CORS prévu, et la console F12 contient
+        le message exact du navigateur.
+      </p>
+
+      <figure class="figure">
+        <img src="docs/images/atelier4/16_web_cors_5501.png" alt="Page servie sur 5501 : appel CORS bloqué">
+        <figcaption><span class="fig-label">Figure 16 —</span> Page servie sur le port 5501 : le navigateur bloque l'appel vers l'API, le client affiche le message CORS.</figcaption>
+      </figure>
+
+      <figure class="figure">
+        <img src="docs/images/atelier4/17_cors_console.png" alt="Console F12 : message CORS exact">
+        <figcaption><span class="fig-label">Figure 17 —</span> Console F12 : message CORS exact, sans le bruit du favicon 404.</figcaption>
+      </figure>
+
+      <div class="callout danger">
+        <span class="callout-title">Message CORS observé</span>
+        <p>
+          <code>Access to fetch at 'http://localhost:8000/v1/predict' from origin 'http://localhost:5501' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.</code>
+        </p>
+      </div>
+
+      <p>
+        La configuration CORS autorise précisément <code>http://localhost:5500</code> et
+        <code>http://127.0.0.1:5500</code>, les méthodes <code>GET</code>, <code>POST</code>,
+        <code>OPTIONS</code> et les en-têtes <code>Content-Type</code>, <code>X-API-Key</code>.
+        Une origine <code>5501</code> reçoit une réponse <code>400 Bad Request</code> avec
+        <code>Disallowed CORS origin</code>.
+      </p>
+
+      <h3>La clé dans l'onglet Network</h3>
+      <figure class="figure">
+        <img src="docs/images/atelier4/18_web_network_key.png" alt="Onglet Network : en-tête X-API-Key visible">
+        <figcaption><span class="fig-label">Figure 18 —</span> Onglet Network : la valeur de <code>X-API-Key</code> est visible en clair dans les en-têtes de la requête.</figcaption>
+      </figure>
+
+      <div class="callout warn">
+        <span class="callout-title">Pourquoi <code>curl</code> fonctionne quand même</span>
+        <p>
+          CORS est une règle appliquée par le navigateur, pas par l'API. <code>curl</code>
+          n'est pas un navigateur : il envoie la requête et lit la réponse sans contrôle
+          CORS. La clé API reste indispensable, même avec <code>curl</code>.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2><span class="num">6.</span>Tests, qualité et résultats</h2>
+      <p>
+        La suite complète contient 52 tests. Les tests d'API existants vérifient le
+        fonctionnement nominal ; les nouveaux tests couvrent les entrées invalides, les
+        bornes et la sécurité.
+      </p>
+
+      <table>
+        <thead>
+          <tr><th>Fichier</th><th>Rôle</th><th>Tests</th><th>Résultat</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>tests/test_api.py</code></td><td>Non-régression de l'API et du modèle</td><td>8</td><td><span class="status s-200">OK</span></td></tr>
+          <tr><td><code>tests/test_casser.py</code></td><td>Cinq requêtes volontairement incorrectes</td><td>5</td><td><span class="status s-200">OK</span></td></tr>
+          <tr><td><code>tests/test_limites.py</code></td><td>Bornes basses et hautes de chaque champ</td><td>28</td><td><span class="status s-200">OK</span></td></tr>
+          <tr><td><code>tests/test_securite.py</code></td><td>Authentification, autorisation et secret</td><td>11</td><td><span class="status s-200">OK</span></td></tr>
+          <tr><td><strong>Total</strong></td><td>Suite complète</td><td><strong>52</strong></td><td><span class="status s-200">52 passed</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout success">
+        <span class="callout-title">Sortie finale</span>
+        <p><strong>52 passed, 1 warning</strong> — le warning est une dépréciation Starlette/httpx, sans impact sur les résultats.</p>
+      </div>
+
+      <h3>Qualité du code</h3>
+      <pre class="terminal"><span class="prompt">PS&gt;</span> ruff check .
+<span class="ok">All checks passed!</span>
+
+<span class="prompt">PS&gt;</span> ruff format --check .
+<span class="ok">20 files already formatted</span></pre>
+
+      <h3>Synthèse des preuves</h3>
+      <table>
+        <thead>
+          <tr><th>Point vérifié</th><th>Preuve</th><th>Résultat</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Validation des entrées</td><td>5 cas de <code>test_casser.py</code></td><td>422 et 404 conformes</td></tr>
+          <tr><td>Bornes</td><td>28 cas de <code>test_limites.py</code></td><td>2 bugs trouvés et corrigés</td></tr>
+          <tr><td>Authentification</td><td>401 sans clé ou fausse clé</td><td>Refus systématique</td></tr>
+          <tr><td>Autorisation</td><td>403 avec clé utilisateur sur <code>/v1/model-info</code></td><td>Rôle admin requis</td></tr>
+          <tr><td>Secret</td><td><code>git check-ignore -v .env</code></td><td><code>.gitignore:5:.env</code></td></tr>
+          <tr><td>CORS</td><td>Origine 5500 acceptée, 5501 refusée</td><td>200 avec ACAO, 400 sans ACAO</td></tr>
+          <tr><td>Client web</td><td>200, 422, 401 et blocage CORS</td><td>Messages lisibles</td></tr>
+          <tr><td>Qualité</td><td>Ruff check et format</td><td>Aucune erreur</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2><span class="num">7.</span>Questions de compréhension</h2>
+
+      <h3>1. Quelle différence entre 401, 403 et 422 ?</h3>
+      <p>
+        <strong>401 Unauthorized</strong> : le client n'est pas authentifié, car la clé est
+        absente ou fausse. <strong>403 Forbidden</strong> : le client est authentifié, mais
+        son rôle ne permet pas l'action, par exemple une clé utilisateur sur
+        <code>/v1/model-info</code>. <strong>422 Unprocessable Entity</strong> : les données
+        sont bien envoyées, mais elles ne respectent pas le schéma : champ manquant, valeur
+        hors bornes ou type incorrect.
+      </p>
+
+      <h3>2. Pourquoi la clé n'est-elle ni dans le code ni dans Git ?</h3>
+      <p>
+        Parce que tout ce qui est commité reste dans l'historique Git, même après suppression
+        du fichier. Une clé dans le code serait lisible par toute personne ayant accès au
+        dépôt. Le fichier <code>.env</code> est lu au démarrage, ignoré par Git, et les
+        secrets peuvent être fournis par l'environnement en production.
+      </p>
+
+      <h3>3. Pourquoi comparer avec <code>compare_digest</code> plutôt qu'avec <code>==</code> ?</h3>
+      <p>
+        <code>==</code> s'arrête dès le premier caractère différent : le temps de réponse peut
+        révéler combien de caractères de la clé sont corrects, ce qui ouvre une attaque
+        temporelle. <code>secrets.compare_digest</code> compare en temps constant et ne donne
+        pas cette information.
+      </p>
+
+      <h3>4. Pourquoi <code>curl</code> fonctionne-t-il alors que la page du port 5501 est bloquée ?</h3>
+      <p>
+        Le blocage vient du navigateur qui applique la politique CORS. <code>curl</code>
+        n'est pas un navigateur et ne vérifie pas <code>Access-Control-Allow-Origin</code>.
+        CORS protège l'utilisateur d'une page malveillante, pas l'API elle-même.
+      </p>
+
+      <h3>5. Pourquoi la validation faite par le navigateur ne remplace-t-elle pas celle de l'API ?</h3>
+      <p>
+        Le navigateur peut vérifier les champs HTML (<code>required</code>,
+        <code>type="number"</code>), mais un client peut envoyer n'importe quel JSON avec
+        <code>curl</code>, un script ou un autre langage. L'API doit donc toujours valider
+        elle-même les données avec Pydantic, car c'est elle qui protège le modèle et les
+        données.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2><span class="num">8.</span>ADR 003 — Sécurité</h2>
+      <p class="lead">
+        L'ADR documente deux décisions structurantes : le transport de la clé et la liste des
+        origines CORS autorisées.
+      </p>
+
+      <h3>Décision 1 — Où transmettre la clé ?</h3>
+      <div class="callout success">
+        <span class="callout-title">Choix retenu : en-tête HTTP <code>X-API-Key</code></span>
+        <p>
+          L'en-tête sépare clairement le secret des données métier et permet au serveur de le
+          vérifier avant même de lire le corps de la requête.
+        </p>
+      </div>
+      <ul>
+        <li><strong>Dans l'URL :</strong> la clé serait enregistrée dans les journaux du serveur, l'historique du navigateur, les proxies et l'en-tête <code>Referer</code>. Un simple partage de lien suffirait à la divulguer.</li>
+        <li><strong>Dans le corps :</strong> la clé serait mélangée aux données métier, recopiée dans les journaux applicatifs et les traces de débogage, et plus difficile à retirer des exemples de requêtes.</li>
+      </ul>
+
+      <h3>Décision 2 — Quelles origines autoriser ?</h3>
+      <div class="callout success">
+        <span class="callout-title">Choix retenu : liste précise</span>
+        <p>
+          <code>http://localhost:5500</code> et <code>http://127.0.0.1:5500</code>, avec les
+          méthodes <code>GET</code>, <code>POST</code>, <code>OPTIONS</code> et les en-têtes
+          <code>Content-Type</code>, <code>X-API-Key</code>.
+        </p>
+      </div>
+      <ul>
+        <li><strong>Avec <code>*</code> :</strong> n'importe quel site pourrait faire lire à un navigateur les réponses de l'API. La clé resterait nécessaire, mais une page malveillante pourrait utiliser une clé volée ou inciter l'utilisateur à appeler l'API.</li>
+        <li><strong>Avec <code>*</code> :</strong> l'envoi de cookies d'authentification (<code>allow_credentials</code>) est interdit et les méthodes et en-têtes réellement utiles ne peuvent pas être restreints.</li>
+        <li><strong>Avec une liste précise :</strong> le moindre privilège est appliqué. Le coût est qu'il faut modifier la configuration et redémarrer l'API pour ajouter une nouvelle origine.</li>
+      </ul>
+
+      <pre><code>app.add_middleware(
+    CORSMiddleware,
+    allow_origins=config.ALLOWED_ORIGINS,
+    allow_methods=[&quot;GET&quot;, &quot;POST&quot;, &quot;OPTIONS&quot;],
+    allow_headers=[&quot;Content-Type&quot;, &quot;X-API-Key&quot;],
+)</code></pre>
+    </section>
+
+    <section class="section">
+      <h2><span class="num">9.</span>Conclusion et livrables</h2>
+      <p>
+        L'API LogiAI est désormais testée, corrigée et protégée. Les tests ont révélé deux
+        bugs de bornes qui ont été corrigés, la clé API n'est plus stockée dans le code ni
+        dans Git, les routes sensibles vérifient le rôle, et le client web affiche des
+        messages compréhensibles pour les cas 200, 401, 422 et CORS.
+      </p>
+
+      <h3>Bilan</h3>
+      <ul class="checklist">
+        <li>Validation Pydantic : champs manquants, valeurs absurdes, types incorrects et champs inconnus refusés.</li>
+        <li>Deux bugs de bornes trouvés par les tests et corrigés : <code>heure_depart</code> et <code>nb_arrets</code>.</li>
+        <li>Authentification par <code>X-API-Key</code> et autorisation administrateur sur <code>/v1/model-info</code>.</li>
+        <li>Clé absente du code et de Git ; <code>.env</code> ignoré, <code>.env.example</code> versionné.</li>
+        <li>CORS limité aux origines 5500, avec refus explicite de l'origine 5501.</li>
+        <li>Client web fonctionnel, erreurs lisibles et clé visible dans l'onglet Network.</li>
+        <li>52 tests passent, Ruff check et format sont propres.</li>
+      </ul>
+
+      <h3>Livrables</h3>
+      <table>
+        <thead>
+          <tr><th>Livrable</th><th>Emplacement</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Compte rendu</td><td><code>COMPTE_RENDU.md</code> et ce PDF</td></tr>
+          <tr><td>ADR sécurité</td><td><code>docs/adr/003-securite.md</code></td></tr>
+          <tr><td>Code de sécurité</td><td><code>logiai/api/security.py</code></td></tr>
+          <tr><td>Routes et CORS</td><td><code>logiai/api/main.py</code></td></tr>
+          <tr><td>Schémas corrigés</td><td><code>logiai/api/schemas.py</code></td></tr>
+          <tr><td>Tests</td><td><code>tests/test_casser.py</code>, <code>test_limites.py</code>, <code>test_securite.py</code></td></tr>
+          <tr><td>Client web</td><td><code>web/index.html</code></td></tr>
+          <tr><td>Captures</td><td><code>docs/images/atelier4/</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Prochaines étapes</h3>
+      <ul>
+        <li>Créer la branche <code>tp-securite</code>, pousser les changements et ouvrir la pull request.</li>
+        <li>Créer le tag <code>tp2</code> après la fusion de la pull request.</li>
+        <li>Renseigner le lien de la pull request dans <code>COMPTE_RENDU.md</code>.</li>
+      </ul>
+
+      <div class="callout">
+        <span class="callout-title">Commande de vérification rapide</span>
+        <pre class="terminal" style="margin-bottom:0"><span class="prompt">PS&gt;</span> .venv\Scripts\python.exe -m pytest -q
+<span class="prompt">PS&gt;</span> .venv\Scripts\ruff.exe check .
+<span class="prompt">PS&gt;</span> .venv\Scripts\ruff.exe format --check .</pre>
+      </div>
+
+      <p class="small center" style="margin-top:12mm">
+        Compte rendu Atelier 4 — BOUJRADA Younes — 4 novembre 2026
+      </p>
+    </section>
+
+  </main>
+</body>
+</html>

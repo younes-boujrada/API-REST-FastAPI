@@ -1,41 +1,38 @@
-# API-REST-FastAPI — LogiAI
+# LogiAI : tester, sécuriser et appeler l'API
 
-Projet d'API REST avec **FastAPI** pour la prédiction des retards de livraison logistique, intégrant la validation de données par **Pydantic**, une suite de tests unitaires avec **Pytest**, et une interface utilisateur interactive avec **Streamlit**.
+Suite du TP précédent : l'API LogiAI est testée pour être cassée, protégée par une clé API, puis appelée par une page web. Le compte rendu complet est dans [COMPTE_RENDU.md](COMPTE_RENDU.md) et la décision de sécurité dans [docs/adr/003-securite.md](docs/adr/003-securite.md).
 
-## 📑 Compte Rendu du TP
-Le rapport complet de l'atelier est disponible dans :
-- [COMPTE_RENDU.md](COMPTE_RENDU.md) (Markdown)
-- [Compte_Rendu_Atelier3_BOUJRADA_Younes.pdf](Compte_Rendu_Atelier3_BOUJRADA_Younes.pdf) (Document PDF)
+## Installation (une fois)
 
-## 🚀 Démarrage rapide
+    python -m venv .venv
+    .venv\Scripts\activate.bat        # Windows cmd  (PowerShell : .venv\Scripts\Activate.ps1)
+    source .venv/bin/activate         # macOS / Linux
+    pip install -r requirements.txt
+    python -m logiai.dataset
+    python -m logiai.train
 
-### 1. Installation
-```bash
-python -m venv .venv
-# Sous Windows PowerShell :
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-```
+## Vos clés (fichier .env, jamais dans Git)
 
-### 2. Données et Entraînement du modèle
-```bash
-python -m logiai.dataset
-python -m logiai.train
-```
+    copy .env.example .env            # macOS / Linux : cp .env.example .env
+    # puis ouvrez .env et choisissez deux clés différentes
 
-### 3. Lancer l'API FastAPI
-```bash
-python -m uvicorn logiai.api.main:app --reload
-```
-- Documentation Swagger interactive : [http://localhost:8000/docs](http://localhost:8000/docs)
-- Endpoint Healthcheck : [http://localhost:8000/health](http://localhost:8000/health)
+Le fichier `.env` est ignoré par Git. `.env.example` est versionné avec des valeurs factices.
 
-### 4. Lancer le client Streamlit
-```bash
-streamlit run streamlit_app.py
-```
+## Lancer
 
-### 5. Exécuter les tests unitaires
-```bash
-python -m pytest
-```
+    python -m uvicorn logiai.api.main:app --reload          # l'API, port 8000
+    python -m http.server 5500 --directory web              # la page web, dans un 2e terminal
+    # ouvrez http://localhost:5500
+
+- `GET /health` est public.
+- `POST /v1/predict` exige une clé utilisateur ou administrateur dans `X-API-Key`.
+- `GET /v1/model-info` est réservé à l'administrateur (403 avec une clé utilisateur).
+- CORS autorise uniquement `http://localhost:5500` et `http://127.0.0.1:5500`.
+
+## Tester
+
+    python -m pytest
+    ruff check .
+    ruff format --check .
+
+Les tests couvrent le cas nominal, les cinq requêtes refusées, les bornes de chaque champ, l'authentification (401), l'autorisation (403) et l'absence de configuration (échec sûr). Le projet ne contient plus les deux bugs de bornes : `heure_depart` est limité à 23 et `nb_arrets` refuse les valeurs négatives.
