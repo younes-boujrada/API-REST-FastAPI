@@ -1,38 +1,40 @@
-# LogiAI : tester, sécuriser et appeler l'API
+# LogiAI : conteneuriser et déployer avec Docker, Nginx et Compose
 
-Suite du TP précédent : l'API LogiAI est testée pour être cassée, protégée par une clé API, puis appelée par une page web. Le compte rendu complet est dans [COMPTE_RENDU.md](COMPTE_RENDU.md) et la décision de sécurité dans [docs/adr/003-securite.md](docs/adr/003-securite.md).
+Suite de l'Atelier 4 : l'API FastAPI LogiAI et sa page web sont conteneurisées et orchestrées avec **Docker Compose**. Nginx sert la page statique sur `http://localhost:8080` et relaie les appels `/api/` vers l'API FastAPI (`http://api:8000/`).
 
-## Installation (une fois)
+- Compte rendu complet : [COMPTE_RENDU.md](COMPTE_RENDU.md)
+- Décisions d'architecture : [docs/adr/003-securite.md](docs/adr/003-securite.md) et [docs/adr/004-docker.md](docs/adr/004-docker.md)
+
+## Vos clés (fichier `.env`, jamais dans Git ni dans l'image)
+
+    copy .env.example .env            # macOS / Linux : cp .env.example .env
+    # puis ouvrez .env et choisissez deux clés différentes (LOGIAI_API_KEY et LOGIAI_ADMIN_KEY)
+
+Le fichier `.env` est ignoré par Git (`.gitignore`) et par le contexte de build Docker (`.dockerignore`). Il est injecté à l'exécution via `env_file` dans `docker-compose.yml`.
+
+## Démarrer avec Docker Compose (une seule commande)
+
+    docker compose config
+    docker compose up -d --build
+    docker compose ps
+
+- **Page web (Nginx) :** `http://localhost:8080` (appelle `/api/v1/predict` sur la même origine, relayé vers `http://api:8000/v1/predict`)
+- **API directe (FastAPI) :** `http://localhost:8001/health` et Swagger sur `http://localhost:8001/docs`
+- **Arrêter / relancer / nettoyer :**
+  - `docker compose stop` / `docker compose start`
+  - `docker compose down`
+
+## Exécution locale hors Docker (Atelier 4)
 
     python -m venv .venv
-    .venv\Scripts\activate.bat        # Windows cmd  (PowerShell : .venv\Scripts\Activate.ps1)
-    source .venv/bin/activate         # macOS / Linux
+    .venv\Scripts\activate.bat        # PowerShell : .venv\Scripts\Activate.ps1
     pip install -r requirements.txt
     python -m logiai.dataset
     python -m logiai.train
+    python -m uvicorn logiai.api.main:app --reload
 
-## Vos clés (fichier .env, jamais dans Git)
-
-    copy .env.example .env            # macOS / Linux : cp .env.example .env
-    # puis ouvrez .env et choisissez deux clés différentes
-
-Le fichier `.env` est ignoré par Git. `.env.example` est versionné avec des valeurs factices.
-
-## Lancer
-
-    python -m uvicorn logiai.api.main:app --reload          # l'API, port 8000
-    python -m http.server 5500 --directory web              # la page web, dans un 2e terminal
-    # ouvrez http://localhost:5500
-
-- `GET /health` est public.
-- `POST /v1/predict` exige une clé utilisateur ou administrateur dans `X-API-Key`.
-- `GET /v1/model-info` est réservé à l'administrateur (403 avec une clé utilisateur).
-- CORS autorise uniquement `http://localhost:5500` et `http://127.0.0.1:5500`.
-
-## Tester
+## Tester et vérifier la qualité
 
     python -m pytest
     ruff check .
     ruff format --check .
-
-Les tests couvrent le cas nominal, les cinq requêtes refusées, les bornes de chaque champ, l'authentification (401), l'autorisation (403) et l'absence de configuration (échec sûr). Le projet ne contient plus les deux bugs de bornes : `heure_depart` est limité à 23 et `nb_arrets` refuse les valeurs négatives.

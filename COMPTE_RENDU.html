@@ -1,364 +1,1022 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Compte Rendu : TP API LogiAI - BOUJRADA Younes</title>
-    <style>
-        @page {
-            size: A4;
-            margin: 18mm 15mm 18mm 15mm;
-            @bottom-right {
-                content: counter(page) "/" counter(pages);
-                font-size: 9pt;
-                color: #64748b;
-            }
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: #1e293b;
-            line-height: 1.55;
-            font-size: 10.5pt;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 0;
-        }
-        .header {
-            border-bottom: 2px solid #2563eb;
-            padding-bottom: 12px;
-            margin-bottom: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-        .header-title h1 {
-            margin: 0;
-            color: #0f172a;
-            font-size: 19pt;
-            font-weight: 700;
-        }
-        .header-title .subtitle {
-            margin-top: 4px;
-            font-size: 11pt;
-            color: #2563eb;
-            font-weight: 600;
-        }
-        .student-info {
-            background-color: #f8fafc;
-            border-left: 4px solid #2563eb;
-            padding: 10px 14px;
-            margin-bottom: 24px;
-            border-radius: 0 6px 6px 0;
-            font-size: 10pt;
-        }
-        .student-info p {
-            margin: 2px 0;
-        }
-        h2 {
-            color: #1e3a8a;
-            border-bottom: 1.5px solid #e2e8f0;
-            padding-bottom: 4px;
-            margin-top: 22px;
-            margin-bottom: 10px;
-            font-size: 13pt;
-            page-break-after: avoid;
-        }
-        h3 {
-            color: #1e40af;
-            font-size: 11pt;
-            margin-top: 14px;
-            margin-bottom: 6px;
-            page-break-after: avoid;
-        }
-        p, li {
-            margin-top: 4px;
-            margin-bottom: 6px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 12px 0;
-            font-size: 9.5pt;
-            page-break-inside: avoid;
-        }
-        th, td {
-            border: 1px solid #cbd5e1;
-            padding: 7px 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f1f5f9;
-            color: #0f172a;
-            font-weight: 600;
-        }
-        tr:nth-child(even) td {
-            background-color: #f8fafc;
-        }
-        pre, code {
-            font-family: Consolas, "Courier New", monospace;
-        }
-        pre {
-            background-color: #0f172a;
-            color: #f8fafc;
-            padding: 10px 12px;
-            border-radius: 6px;
-            font-size: 8.5pt;
-            line-height: 1.4;
-            overflow-x: auto;
-            margin: 8px 0;
-            page-break-inside: avoid;
-        }
-        p code, li code, td code {
-            background-color: #f1f5f9;
-            color: #d946ef;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-size: 9pt;
-        }
-        .img-container {
-            text-align: center;
-            margin: 16px 0;
-            page-break-inside: avoid;
-        }
-        .img-container img {
-            max-width: 95%;
-            height: auto;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .caption {
-            font-size: 8.5pt;
-            color: #64748b;
-            margin-top: 5px;
-            font-style: italic;
-        }
-        .page-break {
-            page-break-before: always;
-        }
-        .badge-success {
-            background-color: #dcfce7;
-            color: #166534;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: 8.5pt;
-        }
-        .badge-error {
-            background-color: #fee2e2;
-            color: #991b1b;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: 8.5pt;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compte rendu Atelier 5 — BOUJRADA Younes</title>
+  <style>
+    :root {
+      --navy: #0b3a67;
+      --blue: #0b5cad;
+      --blue-light: #eaf3fc;
+      --ink: #1f2937;
+      --muted: #475569;
+      --line: #cbd5e1;
+      --green: #116329;
+      --green-light: #eefbf2;
+      --amber: #9a6700;
+      --amber-light: #fff8e6;
+      --red: #b42318;
+      --red-light: #fff1f0;
+      --paper: #ffffff;
+      --soft: #f7f9fc;
+    }
+
+    @page {
+      size: A4;
+      margin: 12mm 16mm;
+    }
+
+    @page :first {
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Segoe UI", "Calibri", Arial, sans-serif;
+      font-size: 10pt;
+      line-height: 1.5;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .cover {
+      height: 297mm;
+      padding: 30mm 24mm 24mm;
+      background:
+        radial-gradient(circle at 88% 8%, rgba(90, 169, 255, 0.32), transparent 28%),
+        radial-gradient(circle at 8% 92%, rgba(17, 99, 41, 0.22), transparent 32%),
+        linear-gradient(135deg, #082f56 0%, #0b3a67 48%, #0b5cad 100%);
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+      break-after: page;
+    }
+
+    .cover::before {
+      content: "";
+      position: absolute;
+      width: 150mm;
+      height: 150mm;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 50%;
+      top: -58mm;
+      right: -48mm;
+    }
+
+    .cover::after {
+      content: "";
+      position: absolute;
+      width: 110mm;
+      height: 110mm;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      bottom: -45mm;
+      left: -32mm;
+    }
+
+    .cover-top,
+    .cover-main,
+    .cover-foot {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8.5pt;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .cover-badge {
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 999px;
+      padding: 2.2mm 5mm;
+      font-weight: 700;
+    }
+
+    .cover-main {
+      margin-top: 36mm;
+    }
+
+    .cover-kicker {
+      color: #9ed0ff;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 9pt;
+      margin-bottom: 7mm;
+    }
+
+    .cover h1 {
+      margin: 0;
+      max-width: 158mm;
+      font-size: 29pt;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      font-weight: 750;
+    }
+
+    .cover-subtitle {
+      margin: 7mm 0 0;
+      max-width: 152mm;
+      font-size: 12pt;
+      line-height: 1.48;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .cover-card {
+      margin-top: 22mm;
+      width: 118mm;
+      padding: 7mm 8mm;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 5mm;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(6px);
+    }
+
+    .cover-label {
+      color: #9ed0ff;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 8pt;
+      font-weight: 700;
+      margin-bottom: 2mm;
+    }
+
+    .cover-name {
+      font-size: 21pt;
+      font-weight: 750;
+      letter-spacing: 0.01em;
+      margin-bottom: 5mm;
+    }
+
+    .cover-meta {
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 9.6pt;
+      line-height: 1.7;
+    }
+
+    .cover-meta strong {
+      color: #ffffff;
+    }
+
+    .cover-foot {
+      position: absolute;
+      left: 24mm;
+      right: 24mm;
+      bottom: 20mm;
+      display: flex;
+      justify-content: space-between;
+      gap: 10mm;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 8.4pt;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 4mm;
+    }
+
+    .content {
+      padding: 0;
+    }
+
+    .section {
+      padding: 0;
+      margin-bottom: 4.2mm;
+      break-before: auto;
+    }
+
+    .section.first {
+      padding: 0;
+      margin-bottom: 5mm;
+      break-before: auto;
+    }
+
+    h2 {
+      margin: 4.5mm 0 2.8mm;
+      padding: 0 0 1.6mm;
+      border-bottom: 2.2px solid var(--blue);
+      color: var(--navy);
+      font-size: 15pt;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      break-after: avoid;
+    }
+
+    .section.first h2 {
+      margin-top: 0;
+    }
+
+    h2 .num {
+      display: inline-block;
+      min-width: 8mm;
+      margin-right: 2mm;
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    h3 {
+      margin: 4mm 0 1.8mm;
+      color: var(--navy);
+      font-size: 11.2pt;
+      line-height: 1.28;
+      break-after: avoid;
+    }
+
+    p {
+      margin: 0 0 2.2mm;
+      text-align: justify;
+    }
+
+    ul,
+    ol {
+      margin: 0 0 2.5mm;
+      padding-left: 5.5mm;
+    }
+
+    li {
+      margin: 0 0 1.1mm;
+    }
+
+    strong {
+      color: #111827;
+    }
+
+    .lead {
+      font-size: 10.2pt;
+      color: var(--muted);
+      margin-bottom: 3mm;
+    }
+
+    .callout {
+      margin: 2.5mm 0 3.2mm;
+      padding: 2.6mm 3.6mm;
+      border-left: 4px solid var(--blue);
+      border-radius: 2mm;
+      background: var(--blue-light);
+      break-inside: avoid;
+    }
+
+    .callout p:last-child {
+      margin-bottom: 0;
+    }
+
+    .callout.success {
+      border-left-color: var(--green);
+      background: var(--green-light);
+    }
+
+    .callout.warn {
+      border-left-color: var(--amber);
+      background: var(--amber-light);
+    }
+
+    .callout.danger {
+      border-left-color: var(--red);
+      background: var(--red-light);
+    }
+
+    .callout-title {
+      display: block;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 1mm;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3mm;
+      margin: 4.5mm 0 5.5mm;
+      break-inside: avoid;
+    }
+
+    .kpi {
+      border: 1px solid var(--line);
+      border-radius: 3mm;
+      padding: 3.5mm;
+      background: var(--soft);
+    }
+
+    .kpi-value {
+      display: block;
+      color: var(--navy);
+      font-size: 18pt;
+      line-height: 1.1;
+      font-weight: 800;
+    }
+
+    .kpi-label {
+      display: block;
+      margin-top: 1.2mm;
+      color: var(--muted);
+      font-size: 8.3pt;
+      line-height: 1.35;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2mm 0 3.2mm;
+      font-size: 8.7pt;
+      line-height: 1.35;
+      break-inside: auto;
+    }
+
+    thead {
+      display: table-header-group;
+    }
+
+    tr {
+      break-inside: avoid;
+    }
+
+    th {
+      background: var(--navy);
+      color: #ffffff;
+      text-align: left;
+      font-weight: 700;
+      padding: 2.2mm 2.6mm;
+      border: 1px solid #0a3159;
+    }
+
+    td {
+      padding: 2mm 2.6mm;
+      border: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    tbody tr:nth-child(even) td {
+      background: #f7f9fc;
+    }
+
+    .status {
+      display: inline-block;
+      min-width: 13mm;
+      padding: 0.7mm 2mm;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 8.2pt;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .s-200 {
+      color: #0b5c2a;
+      background: #dcfce7;
+    }
+
+    .s-401 {
+      color: #8a1c14;
+      background: #fee2e2;
+    }
+
+    .s-502 {
+      color: #7a4d00;
+      background: #fef3c7;
+    }
+
+    code {
+      font-family: "Cascadia Mono", "Consolas", "Courier New", monospace;
+      font-size: 0.89em;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 0.2mm 1mm;
+      border-radius: 1mm;
+    }
+
+    pre {
+      margin: 1.8mm 0 3mm;
+      padding: 2.6mm 3.4mm;
+      border-radius: 2mm;
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: "Cascadia Mono", "Consolas", "Courier New", monospace;
+      font-size: 8pt;
+      line-height: 1.38;
+      white-space: pre-wrap;
+      word-break: break-word;
+      break-inside: avoid;
+      border: 1px solid #1e293b;
+    }
+
+    pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+      font-size: inherit;
+    }
+
+    .figure {
+      margin: 2.5mm 0 3.5mm;
+      break-inside: avoid;
+      text-align: center;
+    }
+
+    .figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--line);
+      border-radius: 2mm;
+      box-shadow: 0 1mm 3mm rgba(15, 23, 42, 0.1);
+      background: #ffffff;
+    }
+
+    figcaption {
+      margin-top: 1.4mm;
+      color: var(--muted);
+      font-size: 8.2pt;
+      line-height: 1.32;
+      text-align: left;
+    }
+
+    .fig-label {
+      color: var(--navy);
+      font-weight: 800;
+    }
+
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 6mm 0 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .toc-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 4mm;
+      margin: 0;
+      padding: 3.2mm 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 10.6pt;
+    }
+
+    .toc-list .n {
+      color: var(--blue);
+      font-weight: 800;
+      min-width: 8mm;
+    }
+
+    .toc-list .t {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .toc-list .d {
+      color: var(--muted);
+      font-size: 8.5pt;
+      margin-left: auto;
+      text-align: right;
+    }
+
+    .toc-note {
+      margin-top: 7mm;
+      color: var(--muted);
+      font-size: 8.8pt;
+      padding: 4mm;
+      border: 1px solid var(--line);
+      border-radius: 2mm;
+      background: var(--soft);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4.5mm;
+      align-items: start;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      position: relative;
+      padding-left: 6mm;
+    }
+
+    .checklist li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .small {
+      font-size: 8.6pt;
+      color: var(--muted);
+    }
+
+    .center {
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="header-title">
-            <h1>Compte Rendu : TP API REST avec FastAPI</h1>
-            <div class="subtitle">Projet LogiAI — Prédiction du risque de retard</div>
+  <section class="cover">
+    <div class="cover-top">
+      <span class="cover-badge">Atelier 5 · LogiAI</span>
+      <span>EMSI · Année Universitaire 2026–2027</span>
+    </div>
+
+    <div class="cover-main">
+      <div class="cover-kicker">Module : Développement et déploiement d'applications intelligentes — Pr. Soukaina Gouraguine</div>
+      <h1>Conteneuriser et déployer LogiAI avec Docker</h1>
+      <p class="cover-subtitle">
+        Image Docker de l'API FastAPI, conteneur Nginx en reverse proxy (origine unique),
+        orchestration Docker Compose avec healthcheck, volumes et décisions d'architecture (ADR 004).
+      </p>
+
+      <div class="cover-card">
+        <div class="cover-label">Présenté par</div>
+        <div class="cover-name">BOUJRADA Younes</div>
+        <div class="cover-meta">
+          <div><strong>Module :</strong> Développement et déploiement d'applications intelligentes</div>
+          <div><strong>Encadrante :</strong> Pr. Soukaina Gouraguine</div>
+          <div><strong>Année universitaire :</strong> 2026 – 2027</div>
+          <div><strong>Livrables :</strong> <code>COMPTE_RENDU.md</code>, <code>Dockerfile</code>, <code>docker-compose.yml</code>, <code>ADR 004</code></div>
         </div>
+      </div>
     </div>
 
-    <div class="student-info">
-        <p><strong>Nom et Prénom :</strong> BOUJRADA Younes</p>
-        <p><strong>Module :</strong> Développement et déploiement d’applications intelligentes</p>
-        <p><strong>Année Universitaire :</strong> 2026 - 2027</p>
-        <p><strong>Branche Git :</strong> <code>tp-api</code></p>
+    <div class="cover-foot">
+      <span>Docker · Nginx Reverse Proxy · Docker Compose</span>
+      <span>FastAPI · Uvicorn · Healthcheck · Volumes</span>
     </div>
+  </section>
 
-    <h2>1. Environnement et premiers tests</h2>
-    <p><strong>Sortie de <code>python -m pytest</code> au démarrage (état initial) :</strong></p>
-    <pre>collected 13 items
-tests\test_api.py ..FFFF......F                                                                  [100%]
-=========================================== FAILURES ===========================================
-FAILED tests/test_api.py::test_predict_valide_renvoie_200 - assert 422 == 200
-FAILED tests/test_api.py::test_predict_forme_de_la_reponse - AssertionError: assert {'detail'} == {'alerte', ...}
-FAILED tests/test_api.py::test_predict_probabilite_entre_0_et_1 - KeyError: 'probabilite_retard'
-FAILED tests/test_api.py::test_predict_trajet_risque_plus_eleve_que_trajet_facile - KeyError: 'probabilite_retard'
-FAILED tests/test_api.py::test_modele_absent_renvoie_503 - assert 422 == 503
-=================================== 5 failed, 8 passed, 1 warning ===================================</pre>
+  <main class="content">
 
-    <p><strong>Performances initiales du modèle (<code>python -m logiai.train</code>) :</strong></p>
-    <ul>
-        <li><strong>Baseline accuracy</strong> : 0.726 (72.6 % en prédisant toujours « à l'heure »)</li>
-        <li><strong>Accuracy du modèle</strong> : 0.774 (77.4 %)</li>
-        <li><strong>Rappel du modèle</strong> : 0.464 (46.4 %)</li>
-        <li><strong>Précision</strong> : 0.617 (61.7 %) | <strong>AUC</strong> : 0.769</li>
-        <li><em>Interprétation :</em> Sur 100 livraisons réellement en retard, environ 46 sont détectées par le modèle. Pour un dispatcher, ce modèle apporte une valeur ajoutée immédiate en priorisant l'action proactive sur près de la moitié des retards réels plutôt que de subir passivement les aléas de livraison.</li>
-    </ul>
+    <!-- SOMMAIRE -->
+    <section class="section first">
+      <h2><span class="num">—</span>Sommaire</h2>
+      <ol class="toc-list">
+        <li><span class="n">1</span><span class="t">Contexte, préparation et premier constat</span><span class="d">« Ça ne marche que chez vous » &amp; prérequis</span></li>
+        <li><span class="n">2</span><span class="t">Synthèse Docker et les trois sens de localhost</span><span class="d">Image, conteneur, couches, réseau et ports</span></li>
+        <li><span class="n">3</span><span class="t">Activité 1 — L'API dans un conteneur</span><span class="d">.dockerignore, Dockerfile, port 8001 et 3 expériences</span></li>
+        <li><span class="n">4</span><span class="t">Sprint 1 — La page web dans un conteneur Nginx</span><span class="d">Chemin relatif, reverse proxy /api/ et origine unique</span></li>
+        <li><span class="n">5</span><span class="t">Sprint 2 — Docker Compose, healthcheck et volumes</span><span class="d">Orchestration, 4 codes Nginx, F12, logs, stats et panne 502</span></li>
+        <li><span class="n">6</span><span class="t">Décisions d'architecture (ADR 004)</span><span class="d">Modèle (COPY vs volume) et publication des ports (8080 vs 8001)</span></li>
+        <li><span class="n">7</span><span class="t">Questions de compréhension et Ticket de sortie</span><span class="d">5 questions d'architecture + analyse de production</span></li>
+        <li><span class="n">8</span><span class="t">Livraison et conclusion</span><span class="d">Vérification Git (.env exclu), Pull Request et tag tp5</span></li>
+      </ol>
 
-    <p><strong>Pourquoi certains tests attendant un code 422 passaient-ils déjà alors que rien n'était encore codé ?</strong></p>
-    <p>Le schéma <code>Livraison</code> était configuré avec <code>model_config = ConfigDict(extra="forbid")</code> et n'avait aucun champ déclaré (seul <code>distance_km</code> était présent). Dès lors, tout champ transmis dans la requête HTTP était considéré comme inconnu et interdit, provoquant systématiquement un rejet automatique par Pydantic avec une erreur <strong>422 Unprocessable Entity</strong>. Les tests attendant 422 réussissaient donc par « faux vert » car tout était rejeté, y compris les données légitimes.</p>
+      <div class="kpi-grid" style="margin-top:8mm">
+        <div class="kpi"><span class="kpi-value">2</span><span class="kpi-label">conteneurs orchestrés (<code>logiai-api</code> &amp; <code>logiai-web</code>)</span></div>
+        <div class="kpi"><span class="kpi-value">52/52</span><span class="kpi-label">tests automatisés <code>pytest</code> au vert</span></div>
+        <div class="kpi"><span class="kpi-value">12</span><span class="kpi-label">captures d'écran intégrées (clés masquées)</span></div>
+        <div class="kpi"><span class="kpi-value">1</span><span class="kpi-label">commande unique : <code>docker compose up -d --build</code></span></div>
+      </div>
 
-    <h2>2. Schéma Pydantic (Livraison)</h2>
-    <p>Définition des 6 variables restantes avec leurs bornes physiques réalistes :</p>
-    <table>
+      <div class="toc-note">
+        <strong>Sécurité des captures :</strong> conformément aux consignes de l'Atelier 5, aucune clé API réelle du fichier <code>.env</code> n'apparaît en clair dans les captures d'écran ni dans Git.
+      </div>
+    </section>
+
+    <!-- SECTION 1 -->
+    <section class="section">
+      <h2><span class="num">1.</span>Contexte, préparation et premier constat</h2>
+      <p class="lead">
+        À l'Atelier 4, l'API LogiAI a été testée (52 tests), protégée par clé API (<code>X-API-Key</code>)
+        et appelée par une page web. L'objectif de l'Atelier 5 est de la rendre <strong>transportable</strong> :
+        l'API et la page tournent chacune dans un conteneur, et une seule commande démarre l'ensemble.
+      </p>
+
+      <h3>1.1 Vérifications initiales (Docker Desktop WSL2, modèle et pytest)</h3>
+      <p>
+        Depuis la racine du projet contenant <code>logiai/</code>, <code>web/</code>, <code>data/</code>, <code>models/</code> et <code>.env</code>,
+        nous vérifions que le démon Docker Linux répond sans erreur, que les 52 tests de l'Atelier 4 passent au vert
+        et que les artefacts du modèle (<code>models/model.joblib</code> et <code>models/model_info.json</code>) existent avant le build.
+      </p>
+
+      <figure class="figure">
+        <img src="docs/images/atelier5/01_prechecks_pytest_docker.png" alt="Vérifications initiales Docker, modèle et pytest">
+        <figcaption><span class="fig-label">Capture 01 —</span> Vérifications préalables : <code>docker --version</code>, <code>docker info</code> (WSL2), présence de <code>model.joblib</code> et 52 tests <code>pytest</code> réussis.</figcaption>
+      </figure>
+
+      <h3>1.2 Premier constat : « ça ne marche que chez vous »</h3>
+      <table>
         <thead>
-            <tr>
-                <th>Variable</th>
-                <th>Min</th>
-                <th>Max</th>
-                <th>Justification physique</th>
-            </tr>
+          <tr><th>Ce que le projet suppose</th><th>Qui le garantit aujourd'hui (sans Docker)</th><th>Qui le garantit avec Docker &amp; Compose</th></tr>
         </thead>
         <tbody>
-            <tr>
-                <td><code>distance_km</code></td>
-                <td>1</td>
-                <td>1000</td>
-                <td>D'un court trajet urbain (1 km) jusqu'à une liaison nationale longue distance (1000 km).</td>
-            </tr>
-            <tr>
-                <td><code>poids_kg</code></td>
-                <td>0.1</td>
-                <td>30000</td>
-                <td>Du pli/colis léger en moto (100 g) jusqu'à la capacité d'un camion lourd (30 tonnes).</td>
-            </tr>
-            <tr>
-                <td><code>heure_depart</code></td>
-                <td>0</td>
-                <td>23</td>
-                <td>Heure sur le cycle journalier de 24 heures (0 à 23).</td>
-            </tr>
-            <tr>
-                <td><code>pluie_mm</code></td>
-                <td>0</td>
-                <td>300</td>
-                <td>Temps sec (0 mm) jusqu'à des conditions orageuses ou d'inondation extrêmes (300 mm).</td>
-            </tr>
-            <tr>
-                <td><code>trafic_index</code></td>
-                <td>0</td>
-                <td>10</td>
-                <td>Échelle standardisée fixée dans le contrat (0 = parfaitement fluide, 10 = réseau saturé).</td>
-            </tr>
-            <tr>
-                <td><code>nb_arrets</code></td>
-                <td>0</td>
-                <td>50</td>
-                <td>Trajet direct sans arrêt (0) jusqu'à une tournée urbaine intensive de livraison (50 arrêts).</td>
-            </tr>
+          <tr>
+            <td>Une version de Python (3.11) et des bibliothèques compatibles avec <code>model.joblib</code></td>
+            <td>Vous, avec <code>.venv</code> et <code>requirements.txt</code></td>
+            <td>L'image Docker (<code>FROM python:3.11-slim</code> + <code>pip install</code>)</td>
+          </tr>
+          <tr>
+            <td>Le fichier <code>.env</code> avec les deux clés (<code>LOGIAI_API_KEY</code>, <code>LOGIAI_ADMIN_KEY</code>)</td>
+            <td>Vous</td>
+            <td><code>env_file: .env</code> injecté à l'exécution (hors de l'image)</td>
+          </tr>
+          <tr>
+            <td>Un modèle entraîné dans <code>models/</code> (<code>model.joblib</code>, <code>model_info.json</code>)</td>
+            <td>Vous, avec <code>python -m logiai.train</code></td>
+            <td>Empaqueté dans l'image (<code>COPY</code>) et monté en volume (<code>./models:/app/models</code>)</td>
+          </tr>
+          <tr>
+            <td>Deux terminaux : <code>uvicorn</code> (port 8000), puis <code>python -m http.server 5500</code></td>
+            <td>Vous, manuellement dans deux terminaux</td>
+            <td>Une seule commande : <code>docker compose up -d --build</code></td>
+          </tr>
         </tbody>
-    </table>
+      </table>
 
-    <div class="page-break"></div>
+      <div class="callout warn">
+        <span class="callout-title">Phrase synthèse</span>
+        <p>
+          <em>« Si je donne mon dossier à un camarade, il doit installer Python 3.11, créer et activer un environnement virtuel <code>.venv</code>, installer <code>requirements.txt</code>, créer son propre fichier <code>.env</code> avec deux clés, générer les données (<code>python -m logiai.dataset</code>), entraîner le modèle (<code>python -m logiai.train</code>), puis ouvrir deux terminaux pour lancer <code>uvicorn</code> sur le port 8000 et <code>python -m http.server 5500</code> pour la page web. »</em>
+        </p>
+      </div>
+    </section>
 
-    <h2>3. Implémentation de la fonction predict()</h2>
-    <pre>@app.post("/v1/predict", response_model=PredictionOut)
-def predict(livraison: Livraison):
-    predictor = state.get("predictor")
-    if predictor is None:
-        raise HTTPException(
-            status_code=503,
-            detail="Modèle non chargé. Veuillez vérifier la présence du modèle ou ré-entraîner avec python -m logiai.train"
-        )
-    resultat = predictor.predict(livraison.model_dump())
-    return PredictionOut(**resultat)</pre>
+    <!-- SECTION 2 -->
+    <section class="section">
+      <h2><span class="num">2.</span>Synthèse Docker et les trois sens de <code>localhost</code></h2>
 
-    <h2>4. Vérification des quatre requêtes</h2>
-    <table>
+      <h3>2.1 Docker en dix idées appliquées à LogiAI</h3>
+      <table>
         <thead>
-            <tr>
-                <th>Requête</th>
-                <th>Code HTTP</th>
-                <th>Explication</th>
-            </tr>
+          <tr><th>Question</th><th>Réponse dans LogiAI</th></tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Livraison normale</td>
-                <td><span class="badge-success">200 OK</span></td>
-                <td>Données valides respectant l'ensemble du schéma et modèle présent en mémoire.</td>
-            </tr>
-            <tr>
-                <td><code>distance_km = -5</code></td>
-                <td><span class="badge-error">422 Unprocessable Entity</span></td>
-                <td>Valeur négative refusée par la borne <code>ge=1</code> vérifiée par Pydantic.</td>
-            </tr>
-            <tr>
-                <td><code>type_vehicule = "avion"</code></td>
-                <td><span class="badge-error">422 Unprocessable Entity</span></td>
-                <td>Valeur non conforme à l'énumération <code>Literal["moto", "fourgon", "camion"]</code>.</td>
-            </tr>
-            <tr>
-                <td>Modèle absent (dossier <code>models/</code> supprimé)</td>
-                <td><span class="badge-error">503 Service Unavailable</span></td>
-                <td><code>state.get("predictor")</code> est <code>None</code> ; l'API lève explicitement une <code>HTTPException(503)</code>.</td>
-            </tr>
+          <tr><td>Qu'est-ce qui est figé ?</td><td>Une <strong>image</strong> : Python 3.11, bibliothèques, code, données et modèle, en couches en lecture seule</td></tr>
+          <tr><td>Qu'est-ce qui tourne ?</td><td>Un <strong>conteneur</strong> : un processus isolé, créé à partir d'une image</td></tr>
+          <tr><td>Comment décrire l'image ?</td><td>Un <strong>Dockerfile</strong> : une instruction, une couche</td></tr>
+          <tr><td>Que voit le build ?</td><td>Le <strong>contexte</strong> : le dossier courant, filtré par <code>.dockerignore</code></td></tr>
+          <tr><td>Comment atteindre l'API ?</td><td>Publier un port : <code>hôte:conteneur</code> (<code>8001:8000</code>)</td></tr>
+          <tr><td>Comment deux conteneurs se parlent-ils ?</td><td>Un <strong>réseau Docker</strong>, avec un DNS interne qui résout les noms de services (<code>api</code>, <code>web</code>)</td></tr>
+          <tr><td>Que devient une donnée écrite dans le conteneur ?</td><td>Elle disparaît avec lui, sauf si elle est dans un <strong>volume</strong></td></tr>
+          <tr><td>Comment démarrer plusieurs services ?</td><td><strong>Docker Compose</strong> : un fichier YAML (<code>docker-compose.yml</code>), une commande</td></tr>
+          <tr><td>Comment savoir si l'API est prête ?</td><td>Un <strong>healthcheck</strong> : un test exécuté périodiquement dans le conteneur</td></tr>
+          <tr><td>Où sont les secrets ?</td><td>Dans <code>.env</code>, transmis à l'exécution, jamais copié dans l'image ni dans Git</td></tr>
         </tbody>
-    </table>
+      </table>
 
-    <div class="img-container">
-        <img src="docs/images/swagger_predict.png" alt="Swagger UI /v1/predict">
-        <div class="caption">Figure 1 : Exécution et réponse 200 sur Swagger UI (/docs) avec les détails de la prédiction.</div>
-    </div>
+      <h3>2.2 Ports, réseau et les trois sens de <code>localhost</code></h3>
+      <p>
+        <code>8001:8000</code> se lit <code>hôte:conteneur</code> : l'API écoute sur le port <code>8000</code> dans son conteneur,
+        et Windows l'atteint sur le port <code>8001</code>. Pour que l'API soit joignable depuis l'extérieur de son conteneur,
+        Uvicorn doit écouter sur <code>0.0.0.0</code> (avec <code>127.0.0.1</code>, seul l'intérieur du conteneur pourrait lui parler).
+      </p>
 
-    <h2>5. Questions de compréhension</h2>
-    <ol>
-        <li><strong>Pourquoi charge-t-on le modèle au démarrage et pas à chaque requête ?</strong><br>
-        Le chargement depuis le disque et la désérialisation du modèle (<code>joblib</code>) prennent des dizaines à centaines de millisecondes et sollicitent fortement le CPU/disque. Le charger une seule fois au démarrage (cycle <code>lifespan</code>) et le garder en mémoire RAM permet d'exécuter chaque prédiction en quasi-instantané (&lt; 2 ms).</li>
-        <li><strong>Qui écrit le contrôle « pluie &lt;= 100 » (ou 300), et où est-il écrit ?</strong><br>
-        Le développeur l'écrit dans <code>logiai/api/schemas.py</code> via le paramètre <code>le=...</code> de <code>Field()</code>. FastAPI et Pydantic interceptent et exécutent automatiquement cette validation avant tout traitement applicatif.</li>
-        <li><strong>Différence entre 422 et 503 ?</strong><br>
-        Le code <strong>422</strong> correspond à une erreur <em>client</em> (données envoyées erronées ou non conformes). Le code <strong>503</strong> correspond à une erreur <em>serveur</em> (le serveur est fonctionnel mais sa dépendance d'inférence est temporairement indisponible).</li>
-        <li><strong>Pourquoi une route <code>/v1/predict</code> plutôt que <code>/predict</code> ?</strong><br>
-        Le versionnement d'API garantit la rétrocompatibilité : on peut déployer plus tard une <code>/v2</code> sans impacter ni casser les clients existants qui continuent de consommer la version 1.</li>
-        <li><strong>Que se passerait-il si la distance était déclarée <code>int</code> ?</strong><br>
-        Toute distance contenant une valeur décimale (ex. <code>14.8</code> km) provoquerait une erreur de validation 422 ou une troncature forcée, privant l'API d'une précision kilométrique réelle.</li>
-    </ol>
+      <table>
+        <thead>
+          <tr><th>Où êtes-vous ?</th><th><code>localhost</code> (<code>127.0.0.1</code>) désigne</th><th>Comment joindre l'API ?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Dans votre navigateur, sur Windows</td><td>Votre machine Windows</td><td><code>http://localhost:8080/api/...</code> (via Nginx) ou <code>http://localhost:8001</code> (direct)</td></tr>
+          <tr><td>Dans le conteneur <code>api</code></td><td>Ce conteneur <code>api</code> lui-même</td><td><code>http://127.0.0.1:8000/health</code> (utilisé par le <code>healthcheck</code>)</td></tr>
+          <tr><td>Dans le conteneur <code>web</code></td><td>Ce conteneur <code>web</code> lui-même</td><td>Par son nom de service DNS Docker : <code>http://api:8000/</code></td></tr>
+        </tbody>
+      </table>
+    </section>
 
-    <div class="page-break"></div>
+    <!-- SECTION 3 -->
+    <section class="section">
+      <h2><span class="num">3.</span>Activité 1 — L'API dans un conteneur</h2>
 
-    <h2>6. Décision de conception : Modèle absent</h2>
-    <p><strong>Répondre 503 ou refuser de démarrer ? Qu'est-ce que chaque option fait perdre ?</strong></p>
-    <ul>
-        <li><strong>Option A (Répondre 503) :</strong> L'API démarre et l'endpoint <code>/health</code> indique <code>{"status": "ok", "model_loaded": false}</code>. Les dashboards de supervision peuvent identifier immédiatement la cause sans que le serveur ne tombe en panne complète. La documentation <code>/docs</code> reste également consultable. <em>Ce qu'on perd :</em> Les requêtes d'inférence échouent pour les utilisateurs.</li>
-        <li><strong>Option B (Refuser de démarrer) :</strong> Philosophie « fail-fast » où un orchestrateur (Kubernetes) ne dirigera aucun trafic vers un conteneur non opérationnel. <em>Ce qu'on perd :</em> Toute observabilité immédiate via <code>/health</code> ou <code>/docs</code>, provoquant des boucles de redémarrage (<code>CrashLoopBackOff</code>).</li>
-    </ul>
+      <div class="two-col">
+        <div>
+          <h3>3.1 Fichier <code>.dockerignore</code></h3>
+          <pre><code>.venv/
+.venv_test/
+venv/
+.git/
+.gitignore
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+*.egg-info/
+.env
+.vscode/
+.idea/
+docs/
+tests/</code></pre>
+        </div>
+        <div>
+          <h3>3.2 <code>Dockerfile</code> de l'API</h3>
+          <pre><code>FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+COPY logiai/ ./logiai/
+COPY data/ ./data/
+COPY models/ ./models/
+ENV LOGIAI_HOME=/app
+EXPOSE 8000
+CMD ["uvicorn", "logiai.api.main:app", "--host", "0.0.0.0", "--port", "8000"]</code></pre>
+          <p class="small">
+            <strong>Ordre des couches :</strong> <code>requirements.txt</code> et <code>pip install</code> sont placés en premier pour être mis en cache tant que les dépendances ne changent pas. Dans <code>logiai/config.py</code>, <code>ROOT = Path(os.getenv("LOGIAI_HOME", ...))</code> lit <code>LOGIAI_HOME</code>.
+          </p>
+        </div>
+      </div>
 
-    <h2>7. Tests et banc d'essai (Bloc 6)</h2>
-    <p>Résultat après implémentation du schéma, de la route et des deux tests personnalisés :</p>
-    <pre>============================= test session starts =============================
-platform win32 -- Python 3.11.9, pytest-9.2.0, pluggy-1.7.0
-rootdir: C:\Users\PC\Downloads\logiai_starter\starter
-plugins: anyio-4.15.1
-collected 15 items
+      <h3>3.3 Construire, lancer et vérifier sur le port <code>8001</code></h3>
+      <figure class="figure">
+        <img src="docs/images/atelier5/02_docker_build_images_ps.png" alt="Build logiai:1.0, docker images et docker ps">
+        <figcaption><span class="fig-label">Capture 02 —</span> Construction de <code>logiai:1.0</code>, affichage de <code>docker images</code> et conteneur <code>logiai-api-test</code> en cours d'exécution dans <code>docker ps</code>.</figcaption>
+      </figure>
 
-tests\test_api.py ...............                                        [100%]
+      <figure class="figure">
+        <img src="docs/images/atelier5/03_activite1_port8001_401_200.png" alt="Tests sur le port 8001 : 200 /health, 401 sans clé et 200 avec clé">
+        <figcaption><span class="fig-label">Capture 03 —</span> Vérification sur le port 8001 : <code>/health</code> renvoie 200, <code>/v1/predict</code> renvoie 401 sans clé et 200 avec la clé du <code>.env</code>.</figcaption>
+      </figure>
+    </section>
 
-======================== 15 passed, 1 warning in 2.99s ========================</pre>
+    <!-- SECTION 3 (suite : 3 expériences) -->
+    <section class="section">
+      <h2><span class="num">3.4</span>Trois expériences pour casser le conteneur</h2>
+      <p>
+        Après chaque expérience, le conteneur est arrêté et supprimé (<code>docker stop logiai-api-test</code>, <code>docker rm logiai-api-test</code>).
+      </p>
 
-    <p><strong>Les deux tests ajoutés dans <code>tests/test_api.py</code> :</strong></p>
-    <pre>def test_heure_24_refusee():
-    with TestClient(app) as client:
-        assert post(client, heure_depart=24).status_code == 422
+      <table>
+        <thead>
+          <tr><th>Expérience</th><th>Prévu</th><th>Obtenu</th><th>Explication en une phrase</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Sans <code>--env-file</code></strong><br><code>docker run -d --name logiai-api-test -p 8001:8000 logiai:1.0</code></td>
+            <td><code>/health</code> indique <code>auth_configured: false</code> et <code>/v1/predict</code> renvoie <span class="status s-401">401</span> même avec la bonne clé.</td>
+            <td><code>/health</code> → <code>{"status":"ok","model_loaded":true,"auth_configured":false}</code> ; <code>/v1/predict</code> avec clé → <span class="status s-401">401</span> <code>Clé API invalide.</code></td>
+            <td>Le conteneur est isolé du disque de l'hôte et <code>.dockerignore</code> a exclu <code>.env</code> de l'image : sans <code>--env-file</code>, les variables d'environnement des clés valent <code>None</code> dans le conteneur et toute requête est refusée (échec sûr).</td>
+          </tr>
+          <tr>
+            <td><strong>2. Sans publier le port</strong><br>Relance sans <code>-p 8001:8000</code></td>
+            <td>Le conteneur est <code>Up</code>, mais <code>curl</code> échoue à joindre <code>localhost:8001</code>.</td>
+            <td><code>docker ps</code> affiche <code>8000/tcp</code> sans redirection, et <code>curl</code> renvoie : <code>curl: (7) Failed to connect to localhost:8001: Could not connect to server</code>.</td>
+            <td>L'instruction <code>EXPOSE 8000</code> ne fait que documenter le port d'écoute : sans <code>-p 8001:8000</code>, aucun port n'est ouvert sur Windows vers le réseau isolé du conteneur.</td>
+          </tr>
+          <tr>
+            <td><strong>3. Écoute sur <code>127.0.0.1</code></strong><br><code>--host 127.0.0.1</code> (<code>logiai:test</code>) avec <code>-p 8001:8000</code></td>
+            <td>Le port est publié mais l'API coupe ou rejette toute connexion venant de l'extérieur du conteneur.</td>
+            <td><code>docker ps</code> montre bien <code>0.0.0.0:8001-&gt;8000/tcp</code>, mais <code>curl</code> échoue avec <code>curl: (52) Empty reply from server</code>.</td>
+            <td>Dans le conteneur, <code>127.0.0.1</code> désigne uniquement la boucle locale interne du conteneur ; pour accepter le trafic arrivant par l'interface réseau Docker (<code>eth0</code>), Uvicorn doit écouter sur <code>0.0.0.0</code>.</td>
+          </tr>
+        </tbody>
+      </table>
 
-def test_alerte_coherente_avec_le_seuil():
-    difficile = dict(distance_km=479, poids_kg=2040, heure_depart=17,
-                     pluie_mm=46, trafic_index=10, nb_arrets=4, type_vehicule="camion")
-    facile = dict(distance_km=5, poids_kg=3, heure_depart=11,
-                  pluie_mm=0, trafic_index=1, nb_arrets=0, type_vehicule="moto")
-    with TestClient(app) as client:
-        res_difficile = post(client, **difficile).json()
-        res_facile = post(client, **facile).json()
-        assert res_difficile["alerte"] is True
-        assert res_facile["alerte"] is False</pre>
+      <figure class="figure">
+        <img src="docs/images/atelier5/04_activite1_trois_experiences.png" alt="Trois expériences pour casser le conteneur">
+        <figcaption><span class="fig-label">Capture 04 —</span> Exécution et résultats observés des trois expériences de l'Activité 1.</figcaption>
+      </figure>
+    </section>
 
-    <h2>8. Client Streamlit (Bloc 7)</h2>
-    <div class="img-container">
-        <img src="docs/images/streamlit_interface.png" alt="Interface Streamlit LogiAI">
-        <div class="caption">Figure 2 : Interface web Streamlit affichant l'évaluation d'une livraison à risque (alerte déclenchée).</div>
-    </div>
-    <p><strong>Gestion de l'API indisponible :</strong> Lorsque le serveur <code>uvicorn</code> est arrêté, le bloc <code>try / except requests.ConnectionError</code> intercepte l'erreur et affiche proprement dans l'interface : <em>« API injoignable : lancez uvicorn dans un autre terminal. »</em></p>
-    <p><strong>Question d'architecture :</strong> Ce client Streamlit n'importe plus <code>scikit-learn</code> ni le modèle. Cela découple totalement le frontend du backend d'IA. Une application mobile (iOS/Android) ou web en React n'a besoin que d'effectuer une requête HTTP POST standard, sans nécessiter d'environnement Python ni télécharger un modèle lourd.</p>
+    <!-- SECTION 4 : SPRINT 1 -->
+    <section class="section">
+      <h2><span class="num">4.</span>Sprint 1 — La page web dans un conteneur Nginx</h2>
+      <p class="lead">
+        Nginx sert la page statique <code>web/index.html</code> sur le port 80 (publié en <code>8080</code> sur Windows)
+        et relaie tous les appels commençant par <code>/api/</code> vers le service FastAPI <code>http://api:8000/</code>.
+      </p>
 
-    <h2>9. Ticket de sortie</h2>
-    <ol>
-        <li><strong>Code pour pluie de 500 mm :</strong> Code <strong>422 Unprocessable Entity</strong>, contrôlé par la validation Pydantic dans <code>schemas.py</code>.</li>
-        <li><strong>Chargement au démarrage :</strong> Pour garantir la rapidité de réponse et éviter la surcharge disque à chaque requête.</li>
-    </ol>
+      <h3>4.1 Les trois fichiers du Sprint 1</h3>
+      <p><strong>1. Modification de <code>web/index.html</code> (une ligne) :</strong></p>
+      <pre><code>const API_URL = '/api/v1/predict';</code></pre>
+
+      <div class="two-col">
+        <div>
+          <p><strong>2. <code>nginx/default.conf</code> :</strong></p>
+          <pre><code>server {
+    listen 80;
+    server_name localhost;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api/ {
+        proxy_pass http://api:8000/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}</code></pre>
+        </div>
+        <div>
+          <p><strong>3. <code>web/Dockerfile</code> :</strong></p>
+          <pre><code>FROM nginx:alpine
+COPY web/index.html /usr/share/nginx/html/index.html
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80</code></pre>
+          <div class="callout">
+            <span class="callout-title">Rôle du slash final dans <code>proxy_pass</code></span>
+            <p>
+              Le slash final de <code>proxy_pass http://api:8000/;</code> indique à Nginx de retirer le préfixe <code>/api/</code> :
+              un appel à <code>/api/v1/predict</code> arrive ainsi à FastAPI sous la forme <code>/v1/predict</code>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <h3>4.2 Chemin emprunté par <code>/api/v1/predict</code> de la page à FastAPI</h3>
+      <ol>
+        <li><strong>Navigateur (Windows) :</strong> depuis la page ouverte sur <code>http://localhost:8080</code>, <code>fetch('/api/v1/predict')</code> envoie une requête <code>POST http://localhost:8080/api/v1/predict</code> avec l'en-tête <code>X-API-Key</code>.</li>
+        <li><strong>Port publié (<code>8080:80</code>) :</strong> Docker redirige la requête vers le port <code>80</code> du conteneur <code>logiai-web</code> (Nginx).</li>
+        <li><strong>Interception et réécriture Nginx :</strong> le bloc <code>location /api/</code> capte la requête, retire le préfixe <code>/api/</code> grâce au slash final de <code>proxy_pass http://api:8000/;</code>, et résout le nom <code>api</code> via le DNS interne du réseau Docker Compose.</li>
+        <li><strong>Relais vers FastAPI :</strong> Nginx transmet <code>POST http://api:8000/v1/predict</code> au conteneur <code>logiai-api</code> en conservant <code>X-API-Key</code> et en ajoutant <code>Host</code>, <code>X-Real-IP</code> et <code>X-Forwarded-For</code>.</li>
+        <li><strong>Réponse :</strong> FastAPI vérifie la clé, calcule la probabilité de retard et renvoie le JSON <code>200 OK</code> à Nginx, qui le renvoie au navigateur.</li>
+      </ol>
+    </section>
+
+    <!-- SECTION 5 : SPRINT 2 -->
+    <section class="section">
+      <h2><span class="num">5.</span>Sprint 2 — Docker Compose, healthcheck et volumes</h2>
+
+      <h3>5.1 Fichier <code>docker-compose.yml</code></h3>
+      <pre><code>services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: logiai-api
+    ports:
+      - '8001:8000'
+    env_file:
+      - .env
+    environment:
+      LOGIAI_HOME: /app
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    container_name: logiai-web
+    ports:
+      - '8080:80'
+    depends_on:
+      api:
+        condition: service_healthy</code></pre>
+
+      <figure class="figure">
+        <img src="docs/images/atelier5/05_compose_up_ps_healthy.png" alt="Docker Compose up et ps avec logiai-api healthy">
+        <figcaption><span class="fig-label">Capture 05 —</span> Validation <code>docker compose config</code>, démarrage <code>docker compose up -d --build</code> et état <code>docker compose ps</code> avec <code>logiai-api</code> en <code>Up (healthy)</code>.</figcaption>
+      </figure>
+
+      <h3>5.2 Étape 4 — Test de bout en bout (port 8080 et Swagger port 8001)</h3>
+      <figure class="figure">
+        <img src="docs/images/atelier5/06_web_8080_predict_success.png" alt="Page web sur le port 8080 : prédiction 73.2%">
+        <figcaption><span class="fig-label">Capture 06 —</span> Test de bout en bout sur <code>http://localhost:8080</code> : probabilité de retard de <code>73.2 %</code> avec alerte (clé masquée).</figcaption>
+      </figure>
+    </section>
+
+    <!-- SECTION 5 (suite) -->
+    <section class="section">
+      <h2><span class="num">5.3</span>Appels via Nginx, inspection F12 et Swagger UI</h2>
+
+      <figure class="figure">
+        <img src="docs/images/atelier5/07_swagger_8001_docs.png" alt="Swagger UI sur http://localhost:8001/docs">
+        <figcaption><span class="fig-label">Capture 07 —</span> Interface Swagger UI accessible sur <code>http://localhost:8001/docs</code>.</figcaption>
+      </figure>
+
+      <h3>Étape 5 — Les quatre codes HTTP obtenus via Nginx (<code>http://localhost:8080/api/...</code>)</h3>
+      <table>
+        <thead>
+          <tr><th>Requête passée par Nginx (port 8080)</th><th>Code attendu</th><th>Code obtenu</th><th>Détail de la réponse</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>GET /api/health</code></td><td><span class="status s-200">200</span></td><td><span class="status s-200">200</span></td><td><code>{"status":"ok","model_loaded":true,"auth_configured":true}</code></td></tr>
+          <tr><td><code>POST /api/v1/predict</code> (sans clé)</td><td><span class="status s-401">401</span></td><td><span class="status s-401">401</span></td><td><code>{"detail":"Clé API absente : renseignez l'en-tête X-API-Key."}</code></td></tr>
+          <tr><td><code>POST /api/v1/predict</code> (fausse clé)</td><td><span class="status s-401">401</span></td><td><span class="status s-401">401</span></td><td><code>{"detail":"Clé API invalide."}</code></td></tr>
+          <tr><td><code>POST /api/v1/predict</code> (bonne clé)</td><td><span class="status s-200">200</span></td><td><span class="status s-200">200</span></td><td><code>{"probabilite_retard":0.732,"alerte":true,"seuil":0.4,"model_version":"1.0"}</code></td></tr>
+        </tbody>
+      </table>
+
+      <figure class="figure">
+        <img src="docs/images/atelier5/08_nginx_quatre_codes_curl.png" alt="Les quatre codes HTTP obtenus via Nginx">
+        <figcaption><span class="fig-label">Capture 08 —</span> Les quatre requêtes <code>curl.exe</code> exécutées via Nginx sur le port 8080.</figcaption>
+      </figure>
+
+      <h3>Étape 6 — Observation F12 (onglet Network) : origine unique et absence de requête <code>OPTIONS</code></h3>
+      <p>
+        La requête part vers <code>http://localhost:8080/api/v1/predict</code>. Contrairement à l'Atelier 4 (port 5500 → port 8000),
+        <strong>aucune requête préliminaire <code>OPTIONS</code></strong> n'apparaît car la page et l'API partagent la même origine (<code>http://localhost:8080</code>).
+      </p>
+
+      <figure class="figure">
+        <img src="docs/images/atelier5/09_f12_network_same_origin.png" alt="Onglet Network F12 sans requête OPTIONS">
+        <figcaption><span class="fig-label">Capture 09 —</span> Onglet Network (F12) : requête directe <code>POST http://localhost:8080/api/v1/predict</code> sans preflight <code>OPTIONS</code> (clé masquée).</figcaption>
+      </figure>
+    </section>
+
+    <!-- SECTION 5 (suite : étapes 7, 8, 9) -->
+    <section class="section">
+      <h2><span class="num">5.4</span>Logs, statistiques, arrêt de l'API (étape 8) et volumes (étape 9)</h2>
+
+      <h3>Étape 7 — Observer : <code>docker compose logs</code> et <code>docker stats</code></h3>
+      <table>
+        <thead>
+          <tr><th>Conteneur</th><th>CPU %</th><th>Mémoire (MEM USAGE / LIMIT)</th><th>MEM %</th><th>Réseau (NET I/O)</th><th>Processus (PIDS)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>logiai-api</code></td><td><code>0.22 %</code></td><td><code>125.3 MiB / 7.572 GiB</code></td><td><code>1.62 %</code></td><td><code>5.02 kB / 2.38 kB</code></td><td><code>36</code></td></tr>
+          <tr><td><code>logiai-web</code></td><td><code>0.00 %</code></td><td><code>13.54 MiB / 7.572 GiB</code></td><td><code>0.17 %</code></td><td><code>5.89 kB / 5.39 kB</code></td><td><code>17</code></td></tr>
+        </tbody>
+      </table>
+
+      <figure class="figure">
+        <img src="docs/images/atelier5/10_compose_logs_stats.png" alt="Journaux docker compose logs et relevés docker stats">
+        <figcaption><span class="fig-label">Capture 10 —</span> Journaux de <code>logiai-api</code> et ressources mesurées avec <code>docker stats</code>.</figcaption>
+      </figure>
+
+      <h3>Étape 8 — Casser puis réparer (<code>docker compose stop api</code> / <code>start api</code>)</h3>
+      <p>
+        Lorsque l'API est arrêtée (<code>docker compose stop api</code>), Nginx ne peut plus joindre <code>http://api:8000/</code> et renvoie une erreur de passerelle
+        <span class="status s-502">502 Bad Gateway</span> (ou <span class="status s-502">504 Gateway Time-out</span>) en HTML. Côté page web, <code>reponse.json()</code> échoue sur ce HTML et déclenche le bloc <code>catch</code> qui affiche :
+        <code>API injoignable ou requête bloquée (CORS). Vérifiez qu'uvicorn est lancé et regardez la console F12.</code> Après <code>docker compose start api</code>, le service repasse <code>healthy</code> et la page refonctionne immédiatement.
+      </p>
+
+      <figure class="figure">
+        <img src="docs/images/atelier5/11_casser_reparer_stop_api_502.png" alt="Arrêt de l'API (502/504) puis redémarrage">
+        <figcaption><span class="fig-label">Capture 11 —</span> Étape 8 : arrêt de <code>logiai-api</code> (erreur de passerelle Nginx et message affiché sur la page), puis relance avec <code>docker compose start api</code>.</figcaption>
+      </figure>
+
+      <h3>Étape 9 — Voir le volume (<code>/app/models</code>)</h3>
+      <p>
+        Le montage <code>./models:/app/models</code> relie directement le dossier de Windows au conteneur : un nouveau <code>model.joblib</code> ré-entraîné sur Windows est vu sans reconstruire l'image. En revanche, <code>logiai/</code> n'étant pas monté en volume mais copié par <code>COPY</code>, toute modification du code Python nécessite <code>docker compose up -d --build</code>.
+      </p>
+
+      <figure class="figure">
+        <img src="docs/images/atelier5/12_volume_git_status_ruff.png" alt="Volume /app/models, git status et Ruff">
+        <figcaption><span class="fig-label">Capture 12 —</span> Contenu du volume <code>/app/models</code>, preuve que <code>.env</code> est exclu de Git et vérifications <code>ruff</code>.</figcaption>
+      </figure>
+    </section>
+
+    <!-- SECTION 6, 7, 8 -->
+    <section class="section">
+      <h2><span class="num">6.</span>Décisions d'architecture (ADR 004) et Questions</h2>
+
+      <h3>6.1 Résumé de l'ADR 004 (<code>docs/adr/004-docker.md</code>)</h3>
+      <ul>
+        <li>
+          <strong>Décision 1 — Le modèle est-il copié dans l'image (<code>COPY</code>) ou monté en volume ?</strong><br>
+          <strong>Choix retenu :</strong> les deux (<code>COPY models/ ./models/</code> dans le <code>Dockerfile</code> + volume <code>./models:/app/models</code> dans <code>docker-compose.yml</code>).<br>
+          <em>Ce que l'autre option ferait perdre :</em> avec <code>COPY</code> seul, chaque ré-entraînement (<code>python -m logiai.train</code>) obligerait à reconstruire toute l'image Docker ; avec un volume seul, l'image distribuée seule serait dépourvue de modèle et renverrait <code>503</code>.
+        </li>
+        <li>
+          <strong>Décision 2 — Quels ports sont publiés : <code>8080</code> seulement, ou aussi <code>8001</code> ?</strong><br>
+          <strong>Choix retenu :</strong> <code>8080</code> et <code>8001</code> en développement/TP ; <code>8080</code> uniquement (ou <code>443</code> HTTPS) en production.<br>
+          <em>Ce que l'autre option ferait perdre :</em> sans <code>8001</code> en TP, on perd l'accès direct à Swagger UI (<code>http://localhost:8001/docs</code>) ; avec <code>8001</code> ouvert en production, un visiteur peut contourner Nginx et attaquer directement Uvicorn/FastAPI (<code>/docs</code>, <code>/v1/...</code>) sans passer par le reverse proxy.
+        </li>
+      </ul>
+
+      <h3>7. Cinq questions de compréhension et Ticket de sortie</h3>
+      <ol>
+        <li><strong>Quelle différence entre une image et un conteneur ?</strong> Une image est un modèle immuable en lecture seule construit par couches à partir d'un <code>Dockerfile</code> ; un conteneur est une instance isolée en exécution créée à partir de cette image, avec une fine couche inscriptible éphémère.</li>
+        <li><strong>Pourquoi le navigateur appelle-t-il <code>/api/v1/predict</code> et non <code>api:8000</code> ?</strong> Le navigateur tourne sur Windows, hors du réseau Docker où seul le DNS interne connaît le nom <code>api</code>. Le chemin relatif <code>/api/v1/predict</code> appelle la même origine (<code>localhost:8080</code>, sans CORS), et Nginx relaie vers <code>http://api:8000/v1/predict</code>.</li>
+        <li><strong>Pourquoi <code>depends_on</code> seul ne suffit-il pas, et que change <code>service_healthy</code> ?</strong> <code>depends_on</code> seul attend seulement le démarrage du conteneur, pas que FastAPI ait chargé le modèle et écoute sur <code>8000</code>. <code>condition: service_healthy</code> attend que le <code>healthcheck</code> sur <code>/health</code> renvoie <code>200 OK</code>.</li>
+        <li><strong>Pourquoi <code>.env</code> est-il dans <code>.dockerignore</code> et dans <code>env_file</code> ?</strong> <code>.dockerignore</code> empêche que les clés soient gravées dans une couche de l'image au moment du build, tandis que <code>env_file</code> les injecte uniquement en mémoire à l'exécution du conteneur.</li>
+        <li><strong>Pourquoi <code>/health</code> doit-il rester public ?</strong> Parce que le <code>healthcheck</code> de Docker interroge <code>http://127.0.0.1:8000/health</code> sans clé API : s'il recevait <code>401</code>, l'API serait déclarée <code>unhealthy</code> et le conteneur <code>web</code> ne démarrerait jamais.</li>
+      </ol>
+
+      <h3>8. Pour aller plus loin &amp; Livraison</h3>
+      <ul class="checklist">
+        <li><strong>Pistes pour la production :</strong> exécuter l'API sous un utilisateur non-root (<code>USER</code>), séparer les dépendances de test et d'exécution, ne publier que le port de Nginx (fermer <code>8001</code>), activer HTTPS et utiliser des clés longues aléatoires.</li>
+        <li><strong>Dépôt GitHub :</strong> <code>https://github.com/younes-boujrada/API-REST-FastAPI</code> — Branche <code>atelier5</code> — Tag <code>tp5</code> / <code>atelier5</code>.</li>
+        <li><strong>Critères de réussite validés :</strong> image construite sans erreur, <code>.env</code> hors de l'image et de Git, <code>401</code> sans clé et <code>200</code> avec clé, <code>logiai-api</code> <code>healthy</code>, prédiction par Nginx sur <code>8080</code>, 3 expériences et arrêt de l'API expliqués.</li>
+      </ul>
+
+      <p class="small center" style="margin-top:3mm; margin-bottom:0">
+        Compte rendu Atelier 5 — BOUJRADA Younes — Année universitaire 2026–2027
+      </p>
+    </section>
+
+  </main>
 </body>
 </html>
