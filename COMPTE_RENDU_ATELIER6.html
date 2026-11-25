@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Compte rendu — Atelier 6 : Faire de LogiAI un package</title>
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 16mm 18mm 16mm;
+  }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    color: #1f2937;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 20pt;
+    color: #0f172a;
+    border-bottom: 3px solid #2563eb;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+  h2 {
+    font-size: 14pt;
+    color: #1e3a8a;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 4px;
+    margin-top: 22px;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 11.5pt;
+    color: #1e40af;
+    margin-top: 14px;
+    page-break-after: avoid;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 9.5pt;
+    page-break-inside: avoid;
+  }
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 7px 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #eff6ff;
+    color: #1e3a8a;
+    font-weight: 600;
+  }
+  tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+  pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-family: 'Cascadia Code', 'Consolas', monospace;
+    font-size: 8.8pt;
+    line-height: 1.42;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    page-break-inside: avoid;
+  }
+  code {
+    background: #f1f5f9;
+    color: #0f172a;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-family: 'Cascadia Code', 'Consolas', monospace;
+    font-size: 9pt;
+  }
+  pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+  }
+  blockquote {
+    border-left: 4px solid #2563eb;
+    background: #eff6ff;
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    page-break-inside: avoid;
+  }
+  figure {
+    margin: 14px 0;
+    text-align: center;
+    page-break-inside: avoid;
+  }
+  figure img, p img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  }
+  figcaption, p img + br + em {
+    display: block;
+    font-size: 8.8pt;
+    color: #475569;
+    margin-top: 6px;
+    font-style: italic;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 16px 0;
+  }
+</style>
+</head>
+<body>
+<h1 id="compte-rendu-atelier-6-faire-de-logiai-un-package">Compte rendu — Atelier 6 : Faire de LogiAI un package</h1>
+<p><strong>Nom et prénom :</strong> BOUJRADA Younes<br />
+<strong>Groupe :</strong> ............................<br />
+<strong>Module :</strong> Développement et déploiement d'applications intelligentes (Pr. Soukaina Gouraguine)<br />
+<strong>Année universitaire :</strong> 2026 - 2027<br />
+<strong>Livrable :</strong> Package Python <code>logiai</code> (<code>pyproject.toml</code>, CLI <code>logiai-predict</code>, wheel, intégration Docker), <code>docs/adr/005-packaging.md</code>, <code>docs/etude-de-conception.md</code> et rapport PDF avec captures (<code>COMPTE_RENDU_ATELIER6_BOUJRADA_Younes.pdf</code>)</p>
+<hr />
+<h2 id="table-des-matieres">Table des matières</h2>
+<ol>
+<li><a href="#1-contexte-et-objectifs">Contexte et objectifs</a></li>
+<li><a href="#2-étape-1--constater-le-problème--ça-ne-marche-que-dans-son-dossier-">Étape 1 — Constater le problème (« ça ne marche que dans son dossier »)</a></li>
+<li><a href="#3-étape-2--écrire-la-fiche-pyprojecttoml-et-les-tests-du-package">Étape 2 — Écrire la fiche <code>pyproject.toml</code> et les tests du package</a></li>
+<li><a href="#4-étape-3--installer-logiai-en-mode-éditable">Étape 3 — Installer LogiAI en mode éditable</a></li>
+<li><a href="#5-étape-4--créer-la-commande-logiai-predict-et-comparer-cli-vs-api-pluie_mm--500">Étape 4 — Créer la commande <code>logiai-predict</code> et comparer CLI vs API (<code>pluie_mm = 500</code>)</a></li>
+<li><a href="#6-étape-5--construire-le-wheel-et-le-livrer-à-un-collègue">Étape 5 — Construire le wheel et le livrer à un collègue</a></li>
+<li><a href="#7-étape-6--installer-le-package-dans-limage-docker">Étape 6 — Installer le package dans l'image Docker</a></li>
+<li><a href="#8-étape-7--adr-005-étude-de-conception-et-livraison-git">Étape 7 — ADR 005, Étude de conception et livraison Git</a></li>
+<li><a href="#9-ticket-de-sortie">Ticket de sortie</a></li>
+</ol>
+<hr />
+<h2 id="1-contexte-et-objectifs">1. Contexte et objectifs</h2>
+<p>À l'issue de l'<strong>Atelier 5</strong>, LogiAI était conteneurisé avec Docker et Docker Compose, mais le code Python restait un simple dossier <code>logiai/</code> copié manuellement (<code>COPY logiai/ ./logiai/</code>), utilisable uniquement depuis la racine du projet. L'<strong>Atelier 6</strong> transforme <code>logiai</code> en un <strong>véritable package Python</strong> installable (<code>pip install -e .</code> ou via un fichier <code>.whl</code>), doté d'une commande terminal <code>logiai-predict</code>, indépendant de son répertoire d'exécution grâce à <code>LOGIAI_HOME</code>, et proprement installé dans <code>site-packages</code> au sein de l'image Docker.</p>
+<table>
+<thead>
+<tr>
+<th>Étape</th>
+<th>Ce qui est réalisé</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Constat</td>
+<td>Vérification que <code>import logiai</code> fonctionne à la racine mais échoue avec <code>ModuleNotFoundError</code> hors du dossier</td>
+</tr>
+<tr>
+<td>2. <code>pyproject.toml</code></td>
+<td>Déclaration du package <code>logiai</code> (<code>0.1.0</code>), de ses dépendances et de <code>tests/test_package.py</code></td>
+</tr>
+<tr>
+<td>3. Mode éditable</td>
+<td><code>pip install -e ".[api,dev]"</code>, <code>pip show logiai</code>, validation de l'import depuis le dossier parent</td>
+</tr>
+<tr>
+<td>4. Commande CLI</td>
+<td>Création de <code>logiai/cli.py</code>, déclaration de <code>logiai-predict</code>, test sur <code>livraison.json</code> et cas <code>pluie_mm = 500</code></td>
+</tr>
+<tr>
+<td>5. Wheel &amp; livraison</td>
+<td>Build <code>logiai-0.1.0-py3-none-any.whl</code>, <code>ROOT</code> via <code>LOGIAI_HOME</code> dans <code>config.py</code>, test en venv vierge</td>
+</tr>
+<tr>
+<td>6. Docker</td>
+<td>Mise à jour du <code>Dockerfile</code> (<code>--no-deps /tmp/build</code>), vérification <code>site-packages</code> et <code>/app</code></td>
+</tr>
+<tr>
+<td>7. Rendre</td>
+<td>Rédaction de <code>docs/adr/005-packaging.md</code>, <code>docs/etude-de-conception.md</code> (architecture), <code>COMPTE_RENDU.md</code>, PR et tag <code>tp6</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-etape-1-constater-le-probleme-ca-ne-marche-que-dans-son-dossier">2. Étape 1 — Constater le problème (« ça ne marche que dans son dossier »)</h2>
+<p>Après création de la branche <code>tp6</code> et vérification des 52 tests initiaux (<code>52 passed</code>), on teste l'import de <code>logiai</code> depuis la racine du projet puis depuis le dossier parent (<code>..</code>) :</p>
+<pre><code class="language-text">PS C:\Users\PC\Downloads\atelier6&gt; .\.venv\Scripts\python.exe -c &quot;import logiai; print(logiai.__file__)&quot;
+C:\Users\PC\Downloads\atelier6\logiai\__init__.py
+
+PS C:\Users\PC\Downloads\atelier6&gt; cd ..
+PS C:\Users\PC\Downloads\atelier6&gt; ..\.venv\Scripts\python.exe -c &quot;import logiai; print(logiai.__file__)&quot;
+Traceback (most recent call last):
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+ModuleNotFoundError: No module named 'logiai'
+</code></pre>
+<p><strong>Réponse attendue (Étape 1) :</strong>  </p>
+<blockquote>
+<p><em>« Pour utiliser LogiAI, mon collègue doit se placer impérativement dans le dossier racine du projet (ou ajouter ce dossier à <code>PYTHONPATH</code>), car Python ne connaît <code>logiai</code> que via le répertoire courant et non comme un package installé dans son environnement. »</em></p>
+</blockquote>
+<p><img alt="Étape 1 : import logiai depuis le projet et ModuleNotFoundError depuis le parent" src="file:///C:/Users/PC/Downloads/atelier6/docs/images/atelier6/01_etape1_import_pytest.png" />
+<em>Capture 01 — Terminal Windows : les 52 tests initiaux passent et l'import de <code>logiai</code> échoue hors du répertoire du projet (<code>ModuleNotFoundError</code>).</em></p>
+<hr />
+<h2 id="3-etape-2-ecrire-la-fiche-pyprojecttoml-et-les-tests-du-package">3. Étape 2 — Écrire la fiche <code>pyproject.toml</code> et les tests du package</h2>
+<p>Le fichier <code>pyproject.toml</code> est créé à la racine du projet. Après inspection des imports de <code>logiai/</code> (<code>config.py</code>, <code>dataset.py</code>, <code>predict.py</code>, <code>train.py</code>), <code>python-dotenv</code> est ajouté aux dépendances principales aux côtés de <code>pandas&gt;=2.0</code>, <code>numpy</code>, <code>scikit-learn&gt;=1.3</code> et <code>joblib</code>. Les extras <code>api</code> (<code>fastapi</code>, <code>uvicorn</code>, <code>pydantic</code>) et <code>dev</code> (<code>pytest</code>, <code>ruff</code>, <code>httpx</code>) sont déclarés, ainsi que <code>[tool.setuptools.packages.find]</code> (<code>include = ["logiai*"]</code>).</p>
+<p>Le fichier <code>tests/test_package.py</code> est créé avec <code>test_package_installe</code> et <code>test_commande_declaree</code>. Avant installation, <code>python -m pytest</code> donne :</p>
+<pre><code class="language-text">2 failed, 52 passed, 1 warning in 33.40s
+FAILED tests/test_package.py::test_package_installe - PackageNotFoundError: No package metadata was found for logiai
+FAILED tests/test_package.py::test_commande_declaree - AssertionError: assert 'logiai-predict' in {...}
+</code></pre>
+<hr />
+<h2 id="4-etape-3-installer-logiai-en-mode-editable">4. Étape 3 — Installer LogiAI en mode éditable</h2>
+<p>L'installation en mode éditable (<code>python -m pip install -e ".[api,dev]"</code>) enregistre <code>logiai</code> dans <code>.venv\Lib\site-packages</code> tout en pointant vers le dossier source :</p>
+<pre><code class="language-text">PS C:\Users\PC\Downloads\atelier6&gt; .\.venv\Scripts\python.exe -m pip show logiai
+Name: logiai
+Version: 0.1.0
+Location: C:\Users\PC\Downloads\atelier6\.venv\Lib\site-packages
+Editable project location: C:\Users\PC\Downloads\atelier6
+Requires: joblib, numpy, pandas, python-dotenv, scikit-learn
+</code></pre>
+<ul>
+<li><code>python -m pytest</code> : <strong>1 seul test échoue</strong> (<code>test_commande_declaree</code>), les <strong>53 autres tests passent</strong>.</li>
+<li>Depuis le dossier parent (<code>..</code>), <code>import logiai</code> fonctionne désormais et affiche <code>C:\Users\PC\Downloads\atelier6\logiai\__init__.py</code>.</li>
+</ul>
+<p><img alt="Étapes 2 et 3 : VS Code avec pyproject.toml, test_package.py et installation éditable" src="file:///C:/Users/PC/Downloads/atelier6/docs/images/atelier6/02_vscode_pyproject_editable.png" />
+<em>Capture 02 — VS Code : édition de <code>pyproject.toml</code> et <code>tests/test_package.py</code>, puis terminal intégré montrant <code>pip show logiai</code>, <code>1 failed, 53 passed</code> et l'import réussi depuis le dossier parent.</em></p>
+<hr />
+<h2 id="5-etape-4-creer-la-commande-logiai-predict-et-comparer-cli-vs-api-pluie_mm-500">5. Étape 4 — Créer la commande <code>logiai-predict</code> et comparer CLI vs API (<code>pluie_mm = 500</code>)</h2>
+<p>Le module <code>logiai/cli.py</code> importe <code>Predictor</code> depuis <code>logiai.predict</code> et <code>ALERT_THRESHOLD</code> depuis <code>logiai.config</code>, lit le fichier JSON passé en argument, calcule la probabilité de retard et affiche :</p>
+<pre><code class="language-text">PS C:\Users\PC\Downloads\atelier6&gt; .\.venv\Scripts\logiai-predict.exe livraison.json
+Probabilité de retard : 73 % (ALERTE)
+
+PS C:\Users\PC\Downloads\atelier6&gt; .\.venv\Scripts\python.exe -m pytest -q
+55 passed, 1 warning in 8.15s
+</code></pre>
+<h3 id="question-a-noter-que-se-passe-t-il-avec-pluie_mm-500">Question à noter : que se passe-t-il avec <code>pluie_mm = 500</code> ?</h3>
+<ul>
+<li><strong>Réponse de la commande CLI (<code>logiai-predict</code>) :</strong><br />
+<code>Probabilité de retard : 100 % (ALERTE)</code> (code de retour <code>0</code>).</li>
+<li><strong>Réponse de l'API (<code>POST /v1/predict</code>) :</strong><br />
+  Erreur HTTP <strong><code>422 Unprocessable Entity</code></strong> :<br />
+<code>{"detail":[{"type":"less_than_equal","loc":["body","pluie_mm"],"msg":"Input should be less than or equal to 100","input":500,"ctx":{"le":100.0}}]}</code>.</li>
+<li><strong>Pourquoi ?</strong><br />
+  L'API valide les entrées avec le schéma Pydantic <code>Livraison</code> (<code>logiai/api/schemas.py</code>), qui impose la contrainte métier <code>pluie_mm: float = Field(ge=0, le=100)</code>. La commande CLI <code>logiai-predict</code> passe directement le dictionnaire JSON à <code>Predictor().predict(livraison)</code> sans validation Pydantic : <code>scikit-learn</code> calcule donc une prédiction mathématique (<code>~100 %</code>) même pour une valeur physiquement aberrante.</li>
+</ul>
+<p><img alt="Étape 4 : VS Code avec logiai/cli.py et exécution de logiai-predict et pytest" src="file:///C:/Users/PC/Downloads/atelier6/docs/images/atelier6/03_vscode_cli_predict.png" />
+<em>Capture 03 — VS Code : implémentation de <code>logiai/cli.py</code>, exécution de <code>logiai-predict livraison.json</code> (<code>73 % (ALERTE)</code>), test <code>pluie_mm = 500</code> (<code>100 % (ALERTE)</code>) et <code>55 passed</code> sous <code>pytest</code>.</em></p>
+<hr />
+<h2 id="6-etape-5-construire-le-wheel-et-le-livrer-a-un-collegue">6. Étape 5 — Construire le wheel et le livrer à un collègue</h2>
+<h3 id="61-construction-et-inspection-du-wheel-5a">6.1 Construction et inspection du wheel (5a)</h3>
+<p>Après installation de <code>build</code>, <code>python -m build</code> génère <code>dist/logiai-0.1.0-py3-none-any.whl</code>. L'inspection via <code>python -m zipfile -l</code> confirme que seul le dossier <code>logiai/</code> et ses métadonnées <code>logiai-0.1.0.dist-info/</code> sont présents (ni <code>models/</code>, ni <code>data/</code>, ni <code>tests/</code>, ni <code>.env</code>).</p>
+<h3 id="62-correction-de-root-avec-logiai_home-5b">6.2 Correction de <code>ROOT</code> avec <code>LOGIAI_HOME</code> (5b)</h3>
+<p>Dans <code>logiai/config.py</code>, la racine du projet est désormais définie par :</p>
+<pre><code class="language-python">ROOT = Path(os.environ.get(&quot;LOGIAI_HOME&quot;, Path.cwd()))
+</code></pre>
+<p>Les 55 tests <code>pytest</code> restent tous verts.</p>
+<h3 id="63-test-dans-un-environnement-vierge-5c">6.3 Test dans un environnement vierge (5c)</h3>
+<p>Dans <code>%TEMP%\essai_logiai</code>, un environnement virtuel <code>.venv</code> neuf est créé et le wheel y est installé :</p>
+<ol>
+<li><strong>Premier lancement (sans <code>LOGIAI_HOME</code>) :</strong> échoue avec le message exact :
+   <code>text
+   FileNotFoundError: [Errno 2] No such file or directory:
+   'C:\\Users\\PC\\AppData\\Local\\Temp\\essai_logiai\\models\\model.joblib'</code></li>
+<li><strong>Deuxième lancement (avec <code>LOGIAI_HOME=C:\Users\PC\Downloads\atelier6</code>) :</strong> réussit et affiche :
+   <code>text
+   Probabilité de retard : 73 % (ALERTE)</code></li>
+</ol>
+<p><img alt="Étape 5 : build du wheel, inspection zipfile et test dans un venv vierge" src="file:///C:/Users/PC/Downloads/atelier6/docs/images/atelier6/04_wheel_clean_venv.png" />
+<em>Capture 04 — Terminal Windows : contenu du wheel (<code>zipfile -l</code>), échec <code>FileNotFoundError</code> sans <code>LOGIAI_HOME</code> dans <code>%TEMP%\essai_logiai</code>, puis prédiction réussie avec <code>LOGIAI_HOME</code>.</em></p>
+<hr />
+<h2 id="7-etape-6-installer-le-package-dans-limage-docker">7. Étape 6 — Installer le package dans l'image Docker</h2>
+<p>Dans <code>Dockerfile</code>, la copie brute <code>COPY logiai/ ./logiai/</code> est remplacée par une installation propre du package depuis <code>/tmp/build</code> avec <code>--no-deps</code> :</p>
+<pre><code class="language-dockerfile">COPY pyproject.toml /tmp/build/
+COPY logiai/ /tmp/build/logiai/
+RUN pip install --no-cache-dir --no-deps /tmp/build &amp;&amp; rm -rf /tmp/build
+</code></pre>
+<p>Après <code>docker compose up -d --build</code>, les vérifications dans le conteneur <code>logiai-api</code> donnent :</p>
+<ul>
+<li><code>docker compose ps</code> : <code>logiai-api</code> est <strong><code>Up (healthy)</code></strong> (<code>8001:8000</code>) et <code>logiai-web</code> est <strong><code>Up</code></strong> (<code>8080:80</code>).</li>
+<li><strong>Chemin de <code>logiai</code> dans le conteneur :</strong>
+  <code>text
+  $ docker compose exec api python -c "import logiai; print(logiai.__file__)"
+  /usr/local/lib/python3.11/site-packages/logiai/__init__.py</code></li>
+<li><strong>Contenu de <code>/app</code> dans le conteneur :</strong>
+  <code>text
+  $ docker compose exec api ls /app
+  data
+  models
+  requirements.txt</code>
+  Le dossier source <code>logiai/</code> n'est plus dans <code>/app</code>.</li>
+<li><strong>Vérifications HTTP :</strong> sans clé API → <strong><code>401</code></strong>, avec clé API → <strong><code>200</code></strong> (<code>{"probabilite_retard":0.732,"alerte":true,"seuil":0.4,"model_version":"1.0"}</code>), avec <code>pluie_mm=500</code> → <strong><code>422</code></strong>, et la page web sur <code>http://localhost:8080</code> répond <strong><code>200</code></strong> et prédit normalement.</li>
+</ul>
+<p><img alt="Étape 6 : Dockerfile mis à jour et vérifications Docker Compose" src="file:///C:/Users/PC/Downloads/atelier6/docs/images/atelier6/05_docker_package_site_packages.png" />
+<em>Capture 05 — VS Code &amp; Terminal Windows : <code>Dockerfile</code> mis à jour, <code>docker compose ps</code> (<code>healthy</code>), <code>logiai.__file__</code> dans <code>site-packages</code> et <code>ls /app</code> sans dossier <code>logiai/</code>.</em></p>
+<p><img alt="Étape 6 : Interface Web sur http://localhost:8080 et tests HTTP" src="file:///C:/Users/PC/Downloads/atelier6/docs/images/atelier6/06_windows_web_8080.png" />
+<em>Capture 06 — Navigateur Windows : interface web LogiAI sur <code>http://localhost:8080</code> prédisant le risque de retard via le reverse proxy Nginx et le package <code>logiai</code> installé dans <code>site-packages</code>.</em></p>
+<hr />
+<h2 id="8-etape-7-adr-005-etude-de-conception-et-livraison-git">8. Étape 7 — ADR 005, Étude de conception et livraison Git</h2>
+<ul>
+<li><strong>ADR 005 (<a href="docs/adr/005-packaging.md"><code>docs/adr/005-packaging.md</code></a>) :</strong> justifie l'usage de <code>&gt;=</code> dans <code>pyproject.toml</code> vs <code>==</code> dans <code>requirements.txt</code>, ainsi que la séparation du modèle (<code>models/</code>) hors du wheel.</li>
+<li><strong>Étude de conception (<a href="docs/etude-de-conception.md"><code>docs/etude-de-conception.md</code></a>) :</strong> créée avec les 9 sections réglementaires et la section <strong>Architecture</strong> rédigée avec le schéma complet (données, modèle, package <code>logiai</code>, API, Nginx, page web, commande CLI et conteneurs).</li>
+<li><strong>Qualité et Git :</strong> <code>.gitignore</code> exclut <code>.env</code>, <code>dist/</code>, <code>build/</code>, <code>*.egg-info/</code> et <code>.venv/</code>. <code>ruff check logiai tests</code> passe (<code>All checks passed!</code>) et <code>pytest</code> passe (<code>55 passed</code>).</li>
+</ul>
+<p><img alt="Étape 7 : git status propre, ruff check et pytest final" src="file:///C:/Users/PC/Downloads/atelier6/docs/images/atelier6/07_git_ruff_pytest_final.png" />
+<em>Capture 07 — Terminal Windows : <code>git status</code> sans fichiers sensibles/artefacts de build, <code>ruff check logiai tests</code> (<code>All checks passed!</code>) et <code>55 passed</code> sous <code>pytest</code>.</em></p>
+<hr />
+<h2 id="9-ticket-de-sortie">9. Ticket de sortie</h2>
+<ol>
+<li><strong>Docker et le package : quelle différence ?</strong><br />
+   Le <strong>package Python</strong> (<code>logiai</code>) regroupe uniquement le code Python et ses métadonnées pour être importé ou exécuté dans n'importe quel environnement Python (via <code>pip</code>). <strong>Docker</strong> empaquette l'environnement complet du système d'exécution (OS Linux, interpréteur Python 3.11, dépendances système/Python, configuration, serveur web/API) afin de garantir un comportement identique sur toute machine.</li>
+<li><strong><code>pip install -e .</code> ou wheel : lequel pour développer, lequel pour livrer ?</strong><br />
+<strong><code>pip install -e .</code></strong> (mode éditable) sert à <strong>développer</strong>, car toute modification du code source est immédiatement prise en compte sans réinstaller. Le <strong>wheel</strong> (<code>.whl</code>) sert à <strong>livrer</strong> une version figée, prête à être installée rapidement chez un collègue ou dans un conteneur sans code source superflu.</li>
+<li><strong>Qu'est-ce qui n'est pas dans le wheel, et que faut-il livrer avec ?</strong><br />
+   Le wheel ne contient ni <strong><code>models/</code></strong> (<code>model.joblib</code>, <code>model_info.json</code>), ni <strong><code>data/</code></strong>, ni <strong><code>.env</code></strong> (secrets), ni <strong><code>tests/</code></strong>. Pour exécuter LogiAI chez un destinataire, il faut livrer le dossier <code>models/</code> (ou le ré-entraîner), définir <strong><code>LOGIAI_HOME</code></strong> vers ce dossier, et configurer les variables d'environnement (<code>.env</code>) si on lance l'API.</li>
+<li><strong>Qu'est-ce qui reste flou pour vous ?</strong><br />
+   L'automatisation complète de la publication du wheel sur un registre privé (ou GitHub Releases) et le versionnement conjoint du modèle (<code>model.joblib</code>) avec un registre de modèles (type MLflow) lors des mises à jour continues.</li>
+</ol>
+</body>
+</html>
